@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SIRKO CLUB - Професійний кінологічний центр. Тренування, соціалізація та догляд за вашими улюбленцями.">
+    <meta name="keywords" content="кінологічний центр, дресирування собак, догляд за собаками, груминг">
+    <title>SIRKO CLUB - Professional Canine Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+       :root {
+    /* Пастельна світла тема */
+    --bg-primary: linear-gradient(135deg, #f7ebe1 0%, #eddfd2 100%);
+    --bg-secondary: rgba(250, 246, 242, 0.95);
+    --bg-card: rgba(255, 251, 247, 0.98);
+    --text-primary: #2c2420;
+    --text-secondary: #6b5d52;
+    --accent: #a68a6f;
+    --accent-hover: #8f735a;
+    --shadow: rgba(139, 114, 86, 0.15);
+    --transition: all 0.3s ease;
+    --bg-opacity: 0.08;
+}
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #2c2416 0%, #1a1612 100%);
+            --bg-secondary: #1f1c18;
+            --bg-card: #2a2520;
+            --text-primary: #e8e8e8;
+            --text-secondary: #b8b8b8;
+            --accent: #b8956f;
+            --accent-hover: #a38560;
+            --shadow: rgba(0,0,0,0.3);
+            --bg-opacity: 0.15;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px; /* Тонший хідер */
+    background: var(--bg-card);
+    position: sticky;
+    top: 0;
+    z-index: 97;
+    box-shadow: 0 2px 15px var(--shadow);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(166, 138, 111, 0.1);
+}
+
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-card);
+            opacity: 0.95;
+            z-index: -1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInLeft 0.6s ease;
+        }
+
+        .logo-img {
+    width: 70px; /* Більший логотип */
+    height: 70px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 4px var(--shadow));
+}
+        .logo-img[src="img/logo/light"],
+        .logo-img:not([src]) {
+            display: none;
+        }
+
+        .logo-fallback {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo:hover .logo-img {
+    transform: scale(1.05) rotate(3deg);
+}
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeInRight 0.6s ease;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-hover);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover::before {
+            transform: scale(1);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        .theme-icon {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-icon {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    position: relative;
+    z-index: 101;
+    background: none;
+    border: none;
+    padding: 5px;
+    transition: var(--transition);
+}
+
+.menu-icon:hover {
+    transform: scale(1.1);
+}
+
+.paw-icon {
+    width: 100%;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.menu-icon.active .paw-icon {
+    transform: rotate(90deg);
+}
+
+        .menu-icon span {
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-icon.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .menu-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(10px, -10px);
+        }
+
+        .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    max-width: 85%;
+    height: 100vh;
+    background: var(--bg-card);
+    box-shadow: -5px 0 25px var(--shadow);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 99;
+    padding: 80px 30px 30px; /* Було 100px, змінили на 80px */
+    overflow-y: auto;
+}
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 98;
+            backdrop-filter: blur(4px);
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-links {
+            list-style: none;
+        }
+
+        .menu-links li {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: var(--transition);
+        }
+
+        .mobile-menu.active .menu-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .mobile-menu.active .menu-links li:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active .menu-links li:nth-child(2) { transition-delay: 0.15s; }
+        .mobile-menu.active .menu-links li:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-menu.active .menu-links li:nth-child(4) { transition-delay: 0.25s; }
+        .mobile-menu.active .menu-links li:nth-child(5) { transition-delay: 0.3s; }
+        .mobile-menu.active .menu-links li:nth-child(6) { transition-delay: 0.35s; }
+
+        .menu-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: block;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .menu-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .menu-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-links a:hover {
+            color: var(--accent);
+            padding-left: 10px;
+        }
+        .hero {
+    position: relative;
+    padding: 80px 20px 60px;
+    overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(166, 138, 111, 0.75) 0%,
+        rgba(143, 115, 90, 0.65) 50%,
+        rgba(166, 138, 111, 0.75) 100%
+    );
+    z-index: 1;
+    mix-blend-mode: multiply;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px
+        );
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: clamp(24px, 5vw, 42px);
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 30px;
+    font-size: clamp(16px, 3vw, 20px);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background: white;
+    color: var(--accent);
+    border: none;
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+        /* Hero Section */
+        /*.hero {
+            position: relative;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(155,130,102,0.7) 0%, rgba(139,114,86,0.8) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(24px, 5vw, 42px);
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 30px;
+            font-size: clamp(16px, 3vw, 20px);
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--accent);
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(155,130,102,0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }*/
+
+        /* Section */
+        .section {
+            padding: 60px 20px;
+            position: relative;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .section-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: var(--bg-opacity);
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: clamp(24px, 4vw, 32px);
+            color: var(--text-primary);
+            margin-bottom: 40px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            animation: slideInDown 0.6s ease;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            animation: scaleIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.15s; }
+        .service-card:nth-child(3) { animation-delay: 0.2s; }
+        .service-card:nth-child(4) { animation-delay: 0.25s; }
+        .service-card:nth-child(5) { animation-delay: 0.3s; }
+        .service-card:nth-child(6) { animation-delay: 0.35s; }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .service-icon {
+            width: 100%;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .service-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .price-badge {
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: auto;
+        }
+
+        /* Social */
+        .social-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-header .section-title {
+            margin: 0;
+            text-align: left;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-hover);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover::before {
+            transform: scale(1);
+        }
+
+        .social-icon:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        .social-icon svg {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .testimonials .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonials .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+          .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-info h4 {
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .stars {
+            color: #f4b740;
+            font-size: 14px;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-secondary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-secondary:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-hover);
+            transform: scale(1.02);
+        }
+
+        /* Gallery */
+        .gallery-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .gallery {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: var(--accent);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(1.1);
+        }
+
+        .gallery-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px var(--shadow);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: slideInLeft 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .info-item:nth-child(1) { animation-delay: 0.1s; }
+        .info-item:nth-child(2) { animation-delay: 0.2s; }
+        .info-item:nth-child(3) { animation-delay: 0.3s; }
+        .info-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .info-item:hover .info-icon {
+            transform: rotate(360deg);
+        }
+
+        .info-content h4 {
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .info-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Map */
+        .map-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px var(--shadow);
+            animation: fadeInUp 0.8s ease;
+            transition: var(--transition);
+        }
+
+        .map-section:hover {
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .map-section h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding-top: 15px;
+            background-color: rgba(247, 247, 247, 0.5);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .map-container {
+            background-color: rgba(30, 30, 30, 0.5);
+        }
+
+        .map-container:hover {
+            box-shadow: 0 12px 45px rgba(0,0,0,0.2);
+        }
+
+        .map-info {
+            padding: 0 20px 20px 20px;
+        }
+
+        .map-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .map-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+            display: block;
+        }
+
+        .map-actions {
+            padding: 15px 20px;
+        }
+
+        .map-link {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(166, 138, 111, 0.3);
+        }
+
+        .map-link:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(166, 138, 111, 0.4);
+        }
+
+        .map-note {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(166, 138, 111, 0.08);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .map-note p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-note svg {
+            flex-shrink: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(26px, 5vw, 36px);
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: bounceIn 0.8s ease;
+        }
+
+        .cta-section p {
+            font-size: clamp(16px, 3vw, 20px);
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-large {
+            background: white;
+            color: var(--accent);
+            border: none;
+            padding: 18px 45px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-large::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(155,130,102,0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-large:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            padding: 40px 20px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(155,130,102,0.2);
+            padding-top: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 1200px;
+            margin: 30px auto 0;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 101;
+            transition: width 0.1s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(155,130,102,0.2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--accent-hover);
+            transform: translateY(-5px);
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus styles */
+        *:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner" role="status" aria-label="Завантаження"></div>
+    </div>
+
+    <div class="progress-bar" id="progressBar" role="progressbar" aria-label="Прогрес прокрутки"></div>
+
+    <div class="container">
+        <header role="banner">
+            <div class="logo">
+                <img src="im" 
+                     alt="SIRKO CLUB Logo" 
+                     class="logo-img" 
+                     id="logoImg">
+                     
+                <div id="logoFallback" class="logo-fallback" style="display: none;">
+                    SC
+                </div>
+            </div>
+            <nav class="header-controls">
+               <button class="theme-toggle" id="themeToggle" aria-label="Змінити тему">
+    <svg class="theme-icon" width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sunGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      
+      <!-- Sun Circle -->
+      <circle cx="70" cy="100" r="38" fill="url(#sunGradient)"/>
+      
+      <!-- Sun Rays -->
+      <rect x="67" y="25" width="6" height="20" rx="3" fill="#FF8C00"/>
+      <rect x="105" y="45" width="6" height="20" rx="3" fill="#FF8C00" transform="rotate(45 108 55)"/>
+      <rect x="130" y="97" width="20" height="6" rx="3" fill="#FF8C00"/>
+      <rect x="105" y="135" width="6" height="20" rx="3" fill="#FF8C00" transform="rotate(-45 108 145)"/>
+      <rect x="67" y="155" width="6" height="20" rx="3" fill="#FF8C00"/>
+      <rect x="29" y="135" width="6" height="20" rx="3" fill="#FF8C00" transform="rotate(45 32 145)"/>
+      <rect x="20" y="97" width="20" height="6" rx="3" fill="#FF8C00"/>
+      <rect x="29" y="45" width="6" height="20" rx="3" fill="#FF8C00" transform="rotate(-45 32 55)"/>
+      
+      <!-- Moon Circle -->
+      <circle cx="130" cy="100" r="55" fill="#3d2f22"/>
+      <circle cx="138" cy="100" r="53" fill="#E5E5E5"/>
+      
+      <!-- Moon Craters -->
+      <circle cx="125" cy="85" r="8" fill="#C8C8C8" opacity="0.7"/>
+      <circle cx="145" cy="78" r="5" fill="#C8C8C8" opacity="0.7"/>
+      <circle cx="155" cy="100" r="6" fill="#C8C8C8" opacity="0.7"/>
+      <circle cx="148" cy="118" r="9" fill="#C8C8C8" opacity="0.7"/>
+      <circle cx="128" cy="115" r="5" fill="#C8C8C8" opacity="0.7"/>
+      <circle cx="160" cy="90" r="4" fill="#C8C8C8" opacity="0.6"/>
+    </svg>
+</button>
+                <button class="menu-icon" id="menuToggle" aria-label="Відкрити меню">
+    <svg class="paw-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Main Pad (bottom) -->
+        <ellipse cx="50" cy="70" rx="20" ry="15" fill="#9b8266"/>
+        
+        <!-- Toe 1 (left) -->
+        <ellipse cx="28" cy="45" rx="10" ry="13" fill="#9b8266" transform="rotate(-15 28 45)"/>
+        
+        <!-- Toe 2 (center-left) -->
+        <ellipse cx="40" cy="35" rx="10" ry="13" fill="#9b8266" transform="rotate(-5 40 35)"/>
+        
+        <!-- Toe 3 (center-right) -->
+        <ellipse cx="60" cy="35" rx="10" ry="13" fill="#9b8266" transform="rotate(5 60 35)"/>
+        
+        <!-- Toe 4 (right) -->
+        <ellipse cx="72" cy="45" rx="10" ry="13" fill="#9b8266" transform="rotate(15 72 45)"/>
+    </svg>
+</button>
+            </nav>
+        </header>
+
+        <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+        <nav class="mobile-menu" id="mobileMenu" aria-label="Головна навігація">
+            <ul class="menu-links" role="list">
+                <li><a href="#home">Головна</a></li>
+                <li><a href="#services">Послуги</a></li>
+                <li><a href="#about">Про нас</a></li>
+                <li><a href="#testimonials">Відгуки</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#contact">Контакти</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section class="hero" id="home" aria-labelledby="hero-title">
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="img/video/bg.hero.mp4" type="video/mp4">
+                    <source src="img/video/bg.hero.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="hero-content">
+                    <h1 id="hero-title">SIRKO CLUB – Професійний кінологічний центр</h1>
+                    <p>Тренування · Соціалізація · Догляд</p>
+                    <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">
+                        Наші послуги
+                    </button>
+                </div>
+            </section>
+
+            <section class="section" id="services" aria-labelledby="services-title">
+                <div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1200');"></div>
+                <h2 class="section-title" id="services-title">Наші послуги</h2>
+                <div class="services-grid">
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services1.jpg" 
+                                 alt="Basic Obedience"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Курси базового послуху</h3>
+                            <p class="service-desc">Індивідуальні заняття</p>
+                            <span class="price-badge">Від 1500₴</span>
+                        </div>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services7.jpg" 
+                                 alt="Group Classes"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Персональні заняття</h3>
+                            <p class="service-desc">Робота під ваш графік</p>
+                            <span class="price-badge">500₴/год</span>
+                        </div>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services4.jpg" 
+                                 alt="Puppy Socialization"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Соціалізація </h3>
+                            <p class="service-desc">Знайомство з людьми та собаками</p>
+                            <span class="price-badge">600₴/1.5 год</span>
+                        </div>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services2.jpg" 
+                                 alt="Rehabilitation"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Групове заняття</h3>
+                            <p class="service-desc">Корекція поведінки</p>
+                            <span class="price-badge">400₴/2 год</span>
+                        </div>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services6.jpg" 
+                                 alt="Sport Training"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Супровід до грумера</h3>
+                            <p class="service-desc">Зниження стресу</p>
+                            <span class="price-badge">Від 1400₴</span>
+                        </div>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services5.jpg" 
+                                 alt="Vet Escort"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Ветеринарний супровід</h3>
+                            <p class="service-desc">Професійний догляд</p>
+                            <span class="price-badge">Від 900₴</span>
+                        </div>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="img/services3.jpg" 
+                                 alt="Vet Escort"
+                                 loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Адаптація</h3>
+                            <p class="service-desc">Професійний догляд</p>
+                            <span class="price-badge">Від 900₴</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" style="background: var(--bg-card);" id="testimonials" aria-labelledby="testimonials-title">
+                <div class="social-header">
+                    <h2 class="section-title" id="testimonials-title">Історії успіху</h2>
+                    <div class="social-links" role="list">
+                        <a href="https://www.instagram.com/lutsk.kinolog?igsh=MXkxdHd0a3gzbTkwdg==" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="social-icon" 
+                           aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://t.me/Pracontanaa" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="social-icon" 
+                           aria-label="Telegram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="testimonials">
+                    <article class="testimonial-card">
+                         <header class="testimonial-header">
+                            <div class="testimonial-avatar" role="img" aria-label="Фото Олександра Петренка">
+                                <img src="img/user.jpg" alt="Фото Олександра Петренка">
+                            </div>
+                             <div class="testimonial-info">
+                                <h4>Олександр Петренко</h4>
+                                <div class="stars" role="img" aria-label="5 з 5 зірок">★★★★★</div>
+                            </div>
+                        </header>
+                        <p class="testimonial-text">"Неймовірний досвід! Наше цуценя так багато навчилося всього за кілька тижнів. Тренери професійні і дійсно піклуються про собак."</p>
+                        <a class="btn-secondary" href="https://t.me/Pracontanaa" target="_blank" rel="noopener noreferrer">Зв'язатися з тренером</a>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <header class="testimonial-header">
+                            <div class="testimonial-avatar" role="img" aria-label="Фото Марії Коваленко">
+                                <img src="img/user.jpg" alt="Марія Коваленко">
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Марія Коваленко</h4>
+                                <div class="stars" role="img" aria-label="5 з 5 зірок">★★★★★</div>
+                            </div>
+                        </header>
+                       <p class="testimonial-text">"Найкраще рішення, яке ми прийняли! Наш песик тепер слухняний і соціалізований. Рекомендую SIRKO CLUB всім власникам собак!"</p>
+                       <a class="btn-secondary" href="https://t.me/Pracontanaa" target="_blank" rel="noopener noreferrer">Зв'язатися з тренером</a>
+                </div>
+            </section>
+
+            <section class="section" id="gallery" aria-labelledby="gallery-title">
+                <div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1200');"></div>
+                <h2 class="section-title" id="gallery-title">Наші учні та атмосфера</h2>
+
+                <div class="gallery-container">
+                    <div class="gallery" id="galleryGrid" role="list">
+                        <!-- Images will be loaded by JavaScript -->
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="gallery-btn" id="prevBtn" aria-label="Попередні фото">‹</button>
+                        <button class="gallery-btn" id="nextBtn" aria-label="Наступні фото">›</button>
+                    </div>
+                </div>
+
+                <aside class="info-section" aria-labelledby="why-choose-title">
+                    <h3 id="why-choose-title" style="font-size: 22px; margin-bottom: 20px; color: var(--text-primary);">Чому обирають SIRKO CLUB?</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon" role="img" aria-label="Сертифіковані тренери">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <div class="info-content">
+                                <h4>Сертифіковані тренери</h4>
+                                <p>Професійні кінологи з міжнародними сертифікатами</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon" role="img" aria-label="Індивідуальний підхід">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                </svg>
+                            </div>
+                            <div class="info-content">
+                                <h4>Індивідуальний підхід</h4>
+                                <p>Персональні програми тренувань для кожного собаки</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon" role="img" aria-label="Сучасне обладнання">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/>
+                                </svg>
+                            </div>
+                            <div class="info-content">
+                                <h4>Сучасне обладнання</h4>
+                                <p>Просторі тренувальні зони з новим обладнанням</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon" role="img" aria-label="Досвід роботи">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <div class="info-content">
+                                <h4>5+ років досвіду</h4>
+                                <p>Перевірений досвід з тисячами щасливих клієнтів</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <aside class="map-section" aria-labelledby="location-title">
+    <h3 id="location-title" style="font-size: 22px; margin-bottom: 20px; color: var(--text-primary); font-weight: 700;">
+        📍 SIRKO CLUB на карті
+    </h3>
+    
+    <div class="map-container" style="
+        position: relative; 
+        border-radius: 16px; 
+        overflow: hidden; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+        padding-top: 15px; /* Додатковий простір для стилізації */
+        background-color: #f7f7f7; /* Легкий фон */
+    ">
+        
+        <div style="padding: 0 20px 20px 20px;">
+            <h4 style="margin: 0 0 5px 0; color: var(--text-primary); font-size: 18px; font-weight: 600;">SIRKO CLUB</h4>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 15px; line-height: 1.4;">
+                <strong>Центр розвитку собак</strong><br>
+                вул. Рівненська, 54, Луцьк
+            </p>
+        </div>
+        
+        <iframe src="https://maps.google.com/maps?q=SIRKO%20club,%20Рівненська%20вулиця,%2054,%20Луцьк&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="450"
+            frameborder="0"
+            style="border:0; display: block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        
+        <!--<div style="padding: 15px 20px;">
+            <a href="https://maps.app.goo.gl/VkwFVznG4NvdUs8U9"
+               target="_blank"
+               style="
+                   display: block;
+                   width: 100%;
+                   text-align: center;
+                   padding: 12px 20px;
+                   background-color: var(--primary-color, #007bff); /* Використання змінної або синій за замовчуванням */
+                   color: #ffffff;
+                   text-decoration: none;
+                   border-radius: 10px;
+                   font-weight: 600;
+                   transition: background-color 0.3s;
+                   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+               "
+               onmouseover="this.style.backgroundColor='var(--primary-color-dark, #0056b3)'"
+               onmouseout="this.style.backgroundColor='var(--primary-color, #007bff)'">
+               Перейти в Google Maps
+            </a>
+        </div>-->
+
+    </div>
+    
+   <!-- <div style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.02); border-radius: 10px; border-left: 4px solid var(--primary-color, #007bff);">
+        <p style="margin: 0; font-size: 14px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Карта інтерактивна, з можливістю прокрутки та масштабування.</span>
+        </p>
+    </div>-->
+</aside>
+
+            <section class="cta-section" id="contact" aria-labelledby="cta-title">
+                <h2 id="cta-title">Готові почати тренування?</h2>
+                <p>Забронюйте вашу першу сесію сьогодні і відчуйте різницю професійного тренування!</p>
+                <div class="cta-buttons">
+                    <button class="btn-large" onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSfRU9V35muURrDXWjqPRwVCENJERjDULEuLizLu45C7HAdxSQ/viewform?fbclid=PAb21jcAOqe4FleHRuA2FlbQIxMAABp8so7qksCzfOSrL8VyOXS5VUwX1YCI_3GYdRDc7tDFsGlZNAMqE57ftpNtv6_aem_Ss2lgoeEsTIW6_X6SGaq_Q&utm_source=ig&utm_medium=social&utm_content=link_in_bio'">Записатися зараз</button>
+                    <button class="btn-large btn-outline" onclick="window.location.href='https://t.me/Pracontanaa'">Зв'язатися з нами</button>
+                </div>
+            </section>
+        </main>
+
+        <footer role="contentinfo">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SIRKO CLUB</h4>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Професійний кінологічний центр, що надає комплексні послуги з тренування та догляду за вашими улюбленцями.</p>
+                </div>
+                <nav class="footer-section" aria-label="Швидкі посилання">
+                    <h4>Швидкі посилання</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Головна</a></li>
+                        <li><a href="#services">Послуги</a></li>
+                        <li><a href="#testimonials">Відгуки</a></li>
+                        <li><a href="#gallery">Галерея</a></li>
+                    </ul>
+                </nav>
+                <address class="footer-section">
+                    <h4>Контакти</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+380XXXXXXXXX">+380 XX XXX XX XX</a></li>
+                        <li><a href="mailto:info@sirkoclub.com">info@sirkoclub.com</a></li>
+                        <li>Луцьк, Волинь, Україна</li>
+                    </ul>
+                </address>
+            </div>
+            <div class="footer-bottom">
+                © 2025 SIRKO CLUB. Всі права захищені.
+            </div>
+        </footer>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" aria-label="Прокрутити вгору">↑</button>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            const loading = document.getElementById('loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+            }, 500);
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const logoImg = document.getElementById('logoImg');
+        const logoFallback = document.getElementById('logoFallback');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateLogos(savedTheme);
+        
+        function updateLogos(theme) {
+            const logoPath = theme === 'dark' ? 
+                'img/logo/dark.png' : 
+                'img/logo/light.png';
+            
+            logoImg.src = logoPath;
+            
+            // Handle logo error
+            logoImg.onerror = function() {
+                this.style.display = 'none';
+                logoFallback.style.display = 'flex';
+            };
+            
+            logoImg.onload = function() {
+                this.style.display = 'block';
+                logoFallback.style.display = 'none';
+            };
+            
+            // Update theme icon
+            if (themeIcon && themeIcon.style.display !== 'none') {
+                themeIcon.src = theme === 'dark' ? 
+                    'img/theme/moon-icon.png' : 
+                    'img/theme/sun-icon.png';
+            }
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateLogos(newTheme);
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        
+        function toggleMenu() {
+            const isActive = mobileMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isActive);
+            menuOverlay.setAttribute('aria-hidden', !isActive);
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking on a link
+        const menuLinks = document.querySelectorAll('.menu-links a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+
+        // Gallery functionality
+        const galleryImages = [];
+        for (let i = 1; i <= 27; i++) {
+            galleryImages.push(`img/img${i}.jpg`);
+        }
+
+        let currentPage = 0;
+        let imagesPerPage = getImagesPerPage();
+        
+        function getImagesPerPage() {
+            if (window.innerWidth < 768) return 2;
+            if (window.innerWidth < 1024) return 6;
+            return 8;
+        }
+        
+        const getTotalPages = () => Math.ceil(galleryImages.length / imagesPerPage);
+
+        function renderGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const start = currentPage * imagesPerPage;
+            const end = start + imagesPerPage;
+            const imagesToShow = galleryImages.slice(start, end);
+            
+            galleryGrid.innerHTML = imagesToShow.map((img, index) => `
+                <div class="gallery-item" role="listitem">
+                    <img src="${img}" 
+                         alt="Фото учнів SIRKO CLUB ${start + index + 1}" 
+                         loading="lazy"
+                         onerror="this.src='https://images.unsplash.com/photo-${1548199973030 + (start + index) * 100000}-03cce0bbc87b?w=300&h=300&fit=crop&q=80'">
+                </div>
+            `).join('');
+            
+            updateGalleryButtons();
+        }
+
+        function updateGalleryButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const totalPages = getTotalPages();
+            
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+            
+            prevBtn.style.opacity = currentPage === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentPage >= totalPages - 1 ? '0.5' : '1';
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderGallery();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const totalPages = getTotalPages();
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                renderGallery();
+            }
+        });
+
+        // Initial gallery render
+        renderGallery();
+
+        // Re-render gallery on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const newImagesPerPage = getImagesPerPage();
+                if (newImagesPerPage !== imagesPerPage) {
+                    imagesPerPage = newImagesPerPage;
+                    currentPage = 0;
+                    renderGallery();
+                }
+            }, 250);
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section, .service-card, .testimonial-card, .info-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+
+        // Form validation (if forms are added)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Add form validation logic here
+                console.log('Form submitted');
+            });
+        });
+
+        // Error tracking
+        window.addEventListener('error', (e) => {
+            console.error('Error occurred:', e.error);
+        });
+
+        // Performance monitoring
+        if ('PerformanceObserver' in window) {
+            const perfObserver = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.loadTime > 3000) {
+                        console.warn('Slow load detected:', entry.name, entry.loadTime);
+                    }
+                }
+            });
+            perfObserver.observe({ entryTypes: ['navigation', 'resource'] });
+        }
+
+        // Service Worker registration (for PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // Analytics tracking
+        function trackEvent(category, action, label) {
+            console.log('Event tracked:', category, action, label);
+            // Integrate with Google Analytics or other analytics service
+        }
+
+        // Track button clicks
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const text = e.target.textContent || e.target.getAttribute('aria-label');
+                trackEvent('User Interaction', 'Click', text);
+            });
+        });
+    </script>
+</body>
+</html>
