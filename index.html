@@ -319,6 +319,47 @@ color: var(--accent);
 padding-left: 5px;
 }
 
+.close-menu-btn {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 4px 12px rgba(166, 138, 111, 0.3);
+      z-index: 100;
+      padding: 0;
+    }
+
+    .close-menu-btn:hover {
+      background: var(--accent-hover);
+      transform: rotate(90deg) scale(1.1);
+      box-shadow: 0 6px 18px rgba(166, 138, 111, 0.4);
+    }
+
+    .close-menu-btn:active {
+      transform: rotate(90deg) scale(0.95);
+    }
+
+    .close-menu-btn svg {
+      width: 70%;
+      height: 70%;
+      fill: white;
+      transition: transform 0.3s ease;
+    }
+
+    .close-menu-btn:hover svg {
+      transform: scale(1.1);
+    }
+
+
 /* Hero Section */
 .hero {
 position: relative;
@@ -1095,7 +1136,7 @@ box-shadow: 0 8px 30px var(--shadow);}
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200');
+            background-image: url('img/bg-cta.jpg');
             background-size: cover;
             background-position: center;
             opacity: 0.1;
@@ -1346,13 +1387,13 @@ box-shadow: 0 8px 30px var(--shadow);}
 
         <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
         <nav class="mobile-menu" id="mobileMenu" aria-label="Головна навігація">
+            <button class="close-menu-btn" id="closeMenuBtn" aria-label="Закрити меню">
+        <img src="img/hr.png" alt="хрестик з кісток" style="width: 28px; height: 28px; object-fit: contain;">
+      </button>
             <ul class="menu-links" role="list">
-                <li><a href="#home">Головна</a></li>
-                <li><a href="#services">Послуги</a></li>
-                <li><a href="#about">Про нас</a></li>
-                <li><a href="#testimonials">Відгуки</a></li>
-                <li><a href="#gallery">Галерея</a></li>
-                <li><a href="#contact">Контакти</a></li>
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="services.html">Послуги</a></li>
+                <li><a href="contact.html">Контакти</a></li>
             </ul>
         </nav>
 
@@ -1373,7 +1414,7 @@ box-shadow: 0 8px 30px var(--shadow);}
             </section>
 
             <section class="section" id="services" aria-labelledby="services-title">
-                <div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1200');"></div>
+                <div class="section-bg" style="background-image: url('img/bg-section.jpg');"></div>
                 <h2 class="section-title" id="services-title">Наші послуги</h2>
                 <div class="services-grid">
                     <article class="service-card">
@@ -1555,7 +1596,7 @@ box-shadow: 0 8px 30px var(--shadow);}
                     <img src="img/user1.jpg" alt="Давула Анна">
                 </div>
                 <div class="testimonial-info">
-                    <h4>Давула Анна</h4>
+                    <h4>Гавула Анна</h4>
                     <div class="stars">★★★★☆</div>
                 </div>
             </header>
@@ -1685,7 +1726,7 @@ box-shadow: 0 8px 30px var(--shadow);}
             </section>
 
             <section class="section" id="gallery" aria-labelledby="gallery-title">
-                <div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1200');"></div>
+                <div class="section-bg" style="background-image: url('img/bg-gallery.jpg');"></div>
                 <h2 class="section-title" id="gallery-title">Наші учні та атмосфера</h2>
 
                 <div class="gallery-container">
@@ -1913,6 +1954,23 @@ box-shadow: 0 8px 30px var(--shadow);}
             link.addEventListener('click', () => {
                 toggleMenu();
             });
+        });
+
+        function closeMenu() {
+        mobileMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuOverlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+
+        document.querySelectorAll('.menu-links a').forEach(link => {
+        link.addEventListener('click', closeMenu);
         });
 
         // Testimonials Carousel
