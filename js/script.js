@@ -30,7 +30,7 @@ const App = {
         this.initGallery();
         this.initLightbox();
         this.initScrollTop();
-        this.initAnimations();
+        this.initScrollAnimations(); // Замість initAnimations
         this.initKeyboardNav();
         this.hideLoading();
     },
@@ -130,7 +130,6 @@ const App = {
         menuOverlay.addEventListener('click', closeMenu);
         if (closeBtn) closeBtn.addEventListener('click', closeMenu);
 
-        // Закриття меню при кліку на посилання
         document.querySelectorAll('.menu-links a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
@@ -178,7 +177,6 @@ const App = {
         this.updateImagesPerPage();
         this.renderGallery();
 
-        // Перемальовування при зміні розміру вікна
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -192,7 +190,6 @@ const App = {
             }, 250);
         });
 
-        // Кнопки навігації
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
@@ -260,7 +257,6 @@ const App = {
             `;
         }).join('');
 
-        // Додавання обробників кліків
         grid.querySelectorAll('.gallery-item').forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.getAttribute('data-index'));
@@ -295,12 +291,10 @@ const App = {
         if (prevBtn) prevBtn.addEventListener('click', () => this.lightboxPrev());
         if (nextBtn) nextBtn.addEventListener('click', () => this.lightboxNext());
 
-        // Закриття при кліку на фон
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) this.closeLightbox();
         });
 
-        // Swipe-керування для мобільних
         this.initLightboxSwipe(lightbox);
     },
 
@@ -324,7 +318,6 @@ const App = {
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
 
-        // Скидання анімації
         void img.offsetWidth;
         img.style.animation = 'fadeIn 0.3s ease';
     },
@@ -367,7 +360,6 @@ const App = {
             counter.textContent = `${this.state.currentLightboxIndex + 1} / ${this.constants.GALLERY_IMAGES_COUNT}`;
         }
 
-        // Скидання анімації для плавності
         void img.offsetWidth;
         img.style.animation = 'none';
         setTimeout(() => {
@@ -402,19 +394,16 @@ const App = {
     // ================================
     initKeyboardNav() {
         document.addEventListener('keydown', (e) => {
-            // Закриття меню на Escape
             if (e.key === 'Escape' && this.state.isMenuOpen) {
                 const closeBtn = document.getElementById('closeMenuBtn');
                 if (closeBtn) closeBtn.click();
             }
 
-            // Закриття lightbox на Escape
             const lightbox = document.getElementById('lightbox');
             if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
                 this.closeLightbox();
             }
 
-            // Навігація в lightbox
             if (lightbox?.classList.contains('active')) {
                 if (e.key === 'ArrowLeft') this.lightboxPrev();
                 if (e.key === 'ArrowRight') this.lightboxNext();
@@ -448,9 +437,10 @@ const App = {
     },
 
     // ================================
-    // АНІМАЦІЇ ПРИ СКРОЛІ
+    // АНІМАЦІЇ ПРИ СКРОЛІ - ОНОВЛЕНО
     // ================================
-    initAnimations() {
+    initScrollAnimations() {
+        // Intersection Observer тільки для елементів без CSS анімацій
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -459,16 +449,16 @@ const App = {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    // Тільки для section, які не мають власних CSS анімацій
+                    if (entry.target.classList.contains('section')) {
+                        entry.target.style.opacity = '1';
+                    }
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.section, .service-card, .testimonial-card, .info-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        // Спостерігаємо тільки за секціями, НЕ за картками
+        document.querySelectorAll('.section').forEach(el => {
             observer.observe(el);
         });
     },

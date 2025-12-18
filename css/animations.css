@@ -1,0 +1,377 @@
+/* ================================
+   SERVICES GRID - ОНОВЛЕНО
+   ================================ */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.service-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 20px 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ключова зміна для вирівнювання */
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.service-icon {
+    width: 100%;
+    height: 100px;
+    background: var(--accent);
+    border-radius: 15px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.service-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.service-card:hover .service-icon::before {
+    transform: translateX(100%);
+}
+
+.service-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon img {
+    transform: scale(1.1);
+}
+
+.service-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Займає доступний простір */
+}
+
+.service-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.service-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    flex-grow: 1; /* Займає весь простір між title і price */
+}
+
+.price-badge {
+    background: var(--accent);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: auto; /* Прижимає до низу */
+    transition: all 0.3s ease;
+}
+
+.service-card:hover .price-badge {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(166, 138, 111, 0.3);
+}
+
+/* ================================
+   INFO SECTION - АНІМОВАНІ ІКОНКИ
+   ================================ */
+.info-section,
+.map-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 5px 20px var(--shadow);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Затримка анімації для кожного елемента */
+.info-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.info-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.info-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.info-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Subtle gradient overlay on icon */
+.info-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.info-item:hover .info-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(166, 138, 111, 0.4);
+}
+
+.info-item:hover .info-icon::before {
+    opacity: 1;
+}
+
+.info-icon svg {
+    transition: transform 0.3s ease;
+}
+
+.info-item:hover .info-icon svg {
+    transform: scale(1.15);
+}
+
+/* Легка анімація пульсації для іконок */
+@keyframes subtle-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(166, 138, 111, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(166, 138, 111, 0);
+    }
+}
+
+.info-icon {
+    animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+/* Зупинка пульсації при hover */
+.info-item:hover .info-icon {
+    animation: none;
+}
+
+.info-content h4 {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.info-content p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.info-item:hover .info-content h4 {
+    color: var(--accent);
+}
+
+/* ================================
+   ДОДАТКОВІ АНІМАЦІЇ
+   ================================ */
+
+/* Анімація для service cards при появі */
+.service-card {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.05s; }
+.service-card:nth-child(2) { animation-delay: 0.1s; }
+.service-card:nth-child(3) { animation-delay: 0.15s; }
+.service-card:nth-child(4) { animation-delay: 0.2s; }
+.service-card:nth-child(5) { animation-delay: 0.25s; }
+.service-card:nth-child(6) { animation-delay: 0.3s; }
+.service-card:nth-child(7) { animation-delay: 0.35s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Плавна анімація для testimonial cards */
+.testimonial-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px var(--shadow);
+}
+
+/* Анімація для галереї */
+.gallery-item {
+    opacity: 0;
+    animation: scaleIn 0.5s ease forwards;
+}
+
+.gallery-item:nth-child(1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(2) { animation-delay: 0.1s; }
+.gallery-item:nth-child(3) { animation-delay: 0.15s; }
+.gallery-item:nth-child(4) { animation-delay: 0.2s; }
+.gallery-item:nth-child(5) { animation-delay: 0.25s; }
+.gallery-item:nth-child(6) { animation-delay: 0.3s; }
+.gallery-item:nth-child(7) { animation-delay: 0.35s; }
+.gallery-item:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ================================
+   ПОКРАЩЕНІ ПЕРЕХОДИ
+   ================================ */
+
+/* Smooth hover effect for buttons */
+.btn-primary,
+.btn-large,
+.gallery-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before,
+.btn-large::before,
+.gallery-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before,
+.btn-large:hover::before,
+.gallery-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Плавний fade-in для секцій */
+.section {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Анімація для social icons */
+.social-icon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.social-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover::after {
+    transform: scale(1);
+}
+
+.social-icon svg {
+    position: relative;
+    z-index: 1;
+}
+
+/* ================================
+   RESPONSIVE ADJUSTMENTS
+   ================================ */
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-item {
+        padding: 15px;
+        background: rgba(166, 138, 111, 0.05);
+        border-radius: 12px;
+    }
+}
