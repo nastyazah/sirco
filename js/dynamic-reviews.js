@@ -125,6 +125,15 @@ const ReviewsManager = {
     // Повторна ініціалізація взаємодії з відгуками
     reinitializeTestimonials() {
         const track = document.querySelector('.testimonials-track');
+        const uniqueCards = new Set();
+    track.querySelectorAll('.testimonial-card').forEach(card => {
+        const text = card.querySelector('.testimonial-text')?.textContent;
+        if (uniqueCards.has(text)) {
+            card.remove();
+        } else {
+            uniqueCards.add(text);
+        }
+    });
         const cards = document.querySelectorAll('.testimonials-track .testimonial-card');
         
         if (!track || !cards.length) return;
