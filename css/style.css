@@ -605,7 +605,7 @@ header {
     transition: var(--transition);
 }
 
-.gallery-btn:hover {
+.gallery-btn:hover:not(:disabled) {
     background: var(--accent-hover);
     transform: scale(1.1);
 }
@@ -627,6 +627,7 @@ header {
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(10px);
+    padding: 20px;
 }
 
 .lightbox.active {
@@ -637,16 +638,21 @@ header {
     position: relative;
     max-width: 90vw;
     max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .lightbox-content img {
     max-width: 100%;
-    max-height: 85vh;
+    max-height: 90vh;
     border-radius: 8px;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    animation: zoomIn 0.3s ease;
 }
 
-@keyframes fadeIn {
+@keyframes zooIn {
     from {
         opacity: 0;
         transform: scale(0.9);
@@ -660,19 +666,21 @@ header {
 .lightbox-close,
 .lightbox-prev,
 .lightbox-next {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     color: white;
-    font-size: 30px;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            font-size: 28px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
 }
 
 .lightbox-close {
@@ -682,18 +690,79 @@ header {
 
 .lightbox-prev {
     left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .lightbox-next {
     right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .lightbox-close:hover,
 .lightbox-prev:hover,
 .lightbox-next:hover {
     background: var(--accent);
-    transform: scale(1.1);
+    transform:  translateY(-50%) scale(1.1);
+    border-color: var(--accent);
 }
+
+ .lightbox-close:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .lightbox-prev,
+            .lightbox-next {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .lightbox-close {
+                width: 50px;
+                height: 50px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-content img {
+                max-height: 80vh;
+            }
+        }
+
+        /* Image counter */
+        .lightbox-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            z-index: 10000;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-counter {
+                bottom: 20px;
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
 
 /* ================================
    INFO & MAP SECTIONS

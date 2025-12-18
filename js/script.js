@@ -1,11 +1,9 @@
-const App = {
-    // КОНФІГУРАЦІЯ ДЛЯ ВІДГУКІВ
-    config: {
-        // ЗАМІНІТЬ НА ВАШ URL ПІСЛЯ РОЗГОРТАННЯ GOOGLE APPS SCRIPT
-        reviewsApiUrl: 'https://script.google.com/macros/s/AKfycbxlq_y41ElyUT3Le0nDYuKtsJjHge9uVwNzO__rHfOzsXlfKXIBDoQYhlj_-g31XBUn/exec', 
-        updateInterval: 5 * 60 * 1000 // Оновлення кожні 5 хв
-    },
+// ================================
+// SIRKO CLUB - Оптимізована архітектура
+// ================================
 
+const App = {
+    // Стан додатку
     state: {
         theme: 'light',
         currentGalleryPage: 0,
@@ -15,126 +13,34 @@ const App = {
         isTestimonialsPaused: false
     },
 
+    // Константи
     constants: {
         GALLERY_IMAGES_COUNT: 27,
         MOBILE_BREAKPOINT: 768,
         TABLET_BREAKPOINT: 1024
     },
 
+    // Ініціалізація
     init() {
         this.loadTheme();
         this.initProgressBar();
         this.initThemeToggle();
         this.initMobileMenu();
+        this.initTestimonials();
         this.initGallery();
         this.initLightbox();
         this.initScrollTop();
         this.initAnimations();
         this.initKeyboardNav();
-        
-        // Ініціалізація відгуків (статичні + спроба завантажити динамічні)
-        this.loadCombinedReviews();
-        
         this.hideLoading();
     },
 
     // ================================
-    // ЛОГІКА ВІДГУКІВ
-    // ================================
-    
-    async loadCombinedReviews() {
-        const track = document.getElementById('testimonialsTrack');
-        if (!track) return;
-
-        // 1. Спочатку активуємо паузу для вже існуючих статичних відгуків
-        this.attachTestimonialsEvents();
-
-        try {
-            const response = await fetch(this.config.reviewsApiUrl);
-            const data = await response.json();
-            
-            if (data.error || !data.reviews || data.reviews.length === 0) {
-                console.log('Динамічні відгуки не знайдені, залишаємо статичні');
-                this.duplicateTrackForAnimation(track);
-                return;
-            }
-
-            // 2. Зберігаємо початковий HTML (статичні відгуки)
-            const staticHTML = track.innerHTML;
-            
-            // 3. Генеруємо HTML для нових динамічних відгуків
-            const dynamicHTML = data.reviews.map(review => this.createReviewCard(review)).join('');
-
-            // 4. Комбінуємо та дублюємо для безперервного циклу анімації
-            const combinedContent = staticHTML + dynamicHTML;
-            track.innerHTML = combinedContent + combinedContent;
-
-            // 5. Переприв'язуємо події до нових елементів
-            this.attachTestimonialsEvents();
-            console.log(`Успішно додано ${data.reviews.length} динамічних відгуків`);
-
-        } catch (error) {
-            console.error('Помилка завантаження відгуків:', error);
-            // У разі помилки просто дублюємо статичні, щоб анімація не переривалася
-            this.duplicateTrackForAnimation(track);
-        }
-    },
-
-    createReviewCard(review) {
-        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-        return `
-            <article class="testimonial-card">
-                <header class="testimonial-header">
-                    <div class="testimonial-avatar">
-                        <img src="${review.photo}" 
-                             alt="Фото ${review.name}"
-                             onerror="this.src='img/user1.jpg'">
-                    </div>
-                    <div class="testimonial-info">
-                        <h4>${review.name}</h4>
-                        <div class="stars">${stars}</div>
-                    </div>
-                </header>
-                <p class="testimonial-text">"${review.review}"</p>
-            </article>
-        `;
-    },
-
-    duplicateTrackForAnimation(track) {
-        if (track.children.length > 0) {
-            track.innerHTML += track.innerHTML;
-            this.attachTestimonialsEvents();
-        }
-    },
-
-    attachTestimonialsEvents() {
-        const track = document.querySelector('.testimonials-track');
-        const cards = document.querySelectorAll('.testimonial-card');
-
-        cards.forEach(card => {
-            // Клік для мобільних (пауза)
-            card.onclick = () => {
-                this.state.isTestimonialsPaused = !this.state.isTestimonialsPaused;
-                track.style.animationPlayState = this.state.isTestimonialsPaused ? 'paused' : 'running';
-                track.classList.toggle('paused', this.state.isTestimonialsPaused);
-            };
-
-            // Наведення для ПК
-            card.onmouseenter = () => {
-                if (!this.state.isTestimonialsPaused) track.style.animationPlayState = 'paused';
-            };
-
-            card.onmouseleave = () => {
-                if (!this.state.isTestimonialsPaused) track.style.animationPlayState = 'running';
-            };
-        });
-    },
-
     // ТЕМА
-
+    // ================================
     loadTheme() {
         try {
-            this.state.theme = 'light'; // За замовчуванням світла тема
+            this.state.theme = 'light';
             document.documentElement.setAttribute('data-theme', this.state.theme);
             this.updateLogos(this.state.theme);
         } catch (e) {
@@ -230,6 +136,40 @@ const App = {
         });
     },
 
+    // ================================
+    // ВІДГУКИ (КАРУСЕЛЬ)
+    // ================================
+    initTestimonials() {
+        const track = document.querySelector('.testimonials-track');
+        const cards = document.querySelectorAll('.testimonials-track .testimonial-card');
+
+        if (!track || !cards.length) return;
+
+        const togglePause = () => {
+            this.state.isTestimonialsPaused = !this.state.isTestimonialsPaused;
+            track.style.animationPlayState = this.state.isTestimonialsPaused ? 'paused' : 'running';
+            track.classList.toggle('paused', this.state.isTestimonialsPaused);
+        };
+
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                togglePause();
+            });
+
+            card.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+                track.classList.add('paused');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (!this.state.isTestimonialsPaused) {
+                    track.style.animationPlayState = 'running';
+                    track.classList.remove('paused');
+                }
+            });
+        });
+    },
 
     // ================================
     // ГАЛЕРЕЯ (GRID + ПАГІНАЦІЯ)
@@ -278,7 +218,7 @@ const App = {
 
     getImagesPerPage() {
         const w = window.innerWidth;
-        if (w < this.constants.MOBILE_BREAKPOINT) return 2;
+        if (w < this.constants.MOBILE_BREAKPOINT) return 4;
         if (w < this.constants.TABLET_BREAKPOINT) return 6;
         return 8;
     },
@@ -315,7 +255,7 @@ const App = {
                     <img src="${img}" 
                          alt="Фото учнів SIRKO CLUB ${globalIdx + 1}" 
                          loading="lazy"
-                         onerror="this.src='https://images.unsplash.com/photo-${1548199973030 + globalIdx * 100000}-03cce0bbc87b?w=300&h=300&fit=crop&q=80'">
+                         onerror="this.src='https://images.unsplash.com/photo-${1548199973030 + globalIdx * 100000}-03cce0bbc87b?w=400&h=400&fit=crop&q=80'">
                 </div>
             `;
         }).join('');
@@ -367,6 +307,7 @@ const App = {
     openLightbox(index) {
         const lightbox = document.getElementById('lightbox');
         const img = document.getElementById('lightboxImg');
+        const counter = document.getElementById('lightboxCounter');
         if (!lightbox || !img) return;
 
         this.state.currentLightboxIndex = index;
@@ -374,6 +315,10 @@ const App = {
         
         img.src = images[index];
         img.alt = `Фото ${index + 1}`;
+        
+        if (counter) {
+            counter.textContent = `${index + 1} / ${this.constants.GALLERY_IMAGES_COUNT}`;
+        }
         
         lightbox.classList.add('active');
         lightbox.setAttribute('aria-hidden', 'false');
@@ -411,11 +356,16 @@ const App = {
 
     updateLightboxImage() {
         const img = document.getElementById('lightboxImg');
+        const counter = document.getElementById('lightboxCounter');
         if (!img) return;
 
         const images = this.generateGalleryImages();
         img.src = images[this.state.currentLightboxIndex];
         img.alt = `Фото ${this.state.currentLightboxIndex + 1}`;
+        
+        if (counter) {
+            counter.textContent = `${this.state.currentLightboxIndex + 1} / ${this.constants.GALLERY_IMAGES_COUNT}`;
+        }
 
         // Скидання анімації для плавності
         void img.offsetWidth;
@@ -468,15 +418,6 @@ const App = {
             if (lightbox?.classList.contains('active')) {
                 if (e.key === 'ArrowLeft') this.lightboxPrev();
                 if (e.key === 'ArrowRight') this.lightboxNext();
-            }
-
-            // Пауза відгуків
-            if (e.key === 'ArrowLeft' && !lightbox?.classList.contains('active')) {
-                const track = document.querySelector('.testimonials-track');
-                if (track) {
-                    this.state.isTestimonialsPaused = !this.state.isTestimonialsPaused;
-                    track.style.animationPlayState = this.state.isTestimonialsPaused ? 'paused' : 'running';
-                }
             }
         });
     },
@@ -533,7 +474,7 @@ const App = {
     },
 
     // ================================
-    // ПРИХОВАНИЙ ЕКРАН ЗАВАНТАЖЕННЯ
+    // ПРИХОВАННЯ ЕКРАНУ ЗАВАНТАЖЕННЯ
     // ================================
     hideLoading() {
         window.addEventListener('load', () => {
@@ -568,4 +509,3 @@ if ('PerformanceObserver' in window) {
     });
     perfObserver.observe({ entryTypes: ['navigation', 'resource'] });
 }
-document.addEventListener('DOMContentLoaded', () => App.init());
