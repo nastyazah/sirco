@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SIRKO CLUB - Контакти. Зв'яжіться з нами для консультації та запису на тренування.">
+    <meta name="keywords" content="кінологічний центр контакти, дресирування собак Луцьк, зв'язатися">
+    <title>SIRKO CLUB - Контакти</title>
+    <link rel="stylesheet" href="style/contact.css">
+</head>
+
+<body>
+    <div class="progress-bar" id="progressBar" role="progressbar" aria-label="Прогрес прокрутки"></div>
+    <!-- Декоративні лапки (зліва) -->
+    <div class="paw-decoration paw-left-1"></div>
+    <div class="paw-decoration paw-left-2"></div>
+    <div class="paw-decoration paw-left-3"></div>
+    <div class="paw-decoration paw-left-4"></div>
+
+    <!-- Декоративні лапки (справа) -->
+    <div class="paw-decoration paw-right-1"></div>
+    <div class="paw-decoration paw-right-2"></div>
+    <div class="paw-decoration paw-right-3"></div>
+    <div class="paw-decoration paw-right-4"></div>
+    <div class="container">
+        <!-- Header - без змін -->
+        <header role="banner">
+            <a href="index.html" class="logo">
+                <img src="images/photo_2025-12-12_22-22-34-Photoroom.png" width="80px" height="80px">
+            </a>
+            <nav class="header-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Змінити тему">
+                    <svg class="theme-icon" width="40" height="40" viewBox="0 0 200 200" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="sunGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="70" cy="100" r="38" fill="url(#sunGradient)" />
+                        <rect x="67" y="25" width="6" height="20" rx="3" fill="#FF8C00" />
+                        <rect x="105" y="45" width="6" height="20" rx="3" fill="#FF8C00"
+                            transform="rotate(45 108 55)" />
+                        <rect x="130" y="97" width="20" height="6" rx="3" fill="#FF8C00" />
+                        <rect x="105" y="135" width="6" height="20" rx="3" fill="#FF8C00"
+                            transform="rotate(-45 108 145)" />
+                        <rect x="67" y="155" width="6" height="20" rx="3" fill="#FF8C00" />
+                        <rect x="29" y="135" width="6" height="20" rx="3" fill="#FF8C00"
+                            transform="rotate(45 32 145)" />
+                        <rect x="20" y="97" width="20" height="6" rx="3" fill="#FF8C00" />
+                        <rect x="29" y="45" width="6" height="20" rx="3" fill="#FF8C00" transform="rotate(-45 32 55)" />
+                        <circle cx="130" cy="100" r="55" fill="#3d2f22" />
+                        <circle cx="138" cy="100" r="53" fill="#E5E5E5" />
+                        <circle cx="125" cy="85" r="8" fill="#C8C8C8" opacity="0.7" />
+                        <circle cx="145" cy="78" r="5" fill="#C8C8C8" opacity="0.7" />
+                        <circle cx="155" cy="100" r="6" fill="#C8C8C8" opacity="0.7" />
+                        <circle cx="148" cy="118" r="9" fill="#C8C8C8" opacity="0.7" />
+                        <circle cx="128" cy="115" r="5" fill="#C8C8C8" opacity="0.7" />
+                        <circle cx="160" cy="90" r="4" fill="#C8C8C8" opacity="0.6" />
+                    </svg>
+                </button>
+                <button class="menu-icon" id="menuToggle" aria-label="Відкрити меню">
+                    <svg class="paw-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="50" cy="70" rx="20" ry="15" fill="#9b8266" />
+                        <ellipse cx="28" cy="45" rx="10" ry="13" fill="#9b8266" transform="rotate(-15 28 45)" />
+                        <ellipse cx="40" cy="35" rx="10" ry="13" fill="#9b8266" transform="rotate(-5 40 35)" />
+                        <ellipse cx="60" cy="35" rx="10" ry="13" fill="#9b8266" transform="rotate(5 60 35)" />
+                        <ellipse cx="72" cy="45" rx="10" ry="13" fill="#9b8266" transform="rotate(15 72 45)" />
+                    </svg>
+                </button>
+            </nav>
+        </header>
+        <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+        <nav class="mobile-menu" id="mobileMenu" aria-label="Головна навігація">
+            <ul class="menu-links" role="list">
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="services.html">Послуги</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </nav>
+
+
+        <main>
+            <!-- Hero секція -->
+            <section class="contacts-hero">
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="images/135025-760679997_small.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <h1>Зв'яжіться з нами</h1>
+                <p>Ми завжди раді відповісти на ваші запитання та допомогти з вибором програми тренувань</p>
+            </section>
+
+            <!-- Основний контент -->
+            <div class="contacts-content">
+                <!-- Перший рядок: Email та Телефон -->
+                <div class="contact-row">
+                    <!-- Email Card -->
+                    <article class="contact-card">
+                        <div class="contact-card-header">
+                            <div class="contact-icon">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                    <path
+                                        d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Email</h3>
+                            </div>
+                        </div>
+                        <div class="contact-card-content">
+                            <p>Напишіть нам листа, і ми відповімо протягом 24 годин</p>
+                            <a href="mailto:info@sirkoclub.com" class="contact-link">
+                                info@sirkoclub.com →
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Phone Card -->
+                    <article class="contact-card">
+                        <div class="contact-card-header">
+                            <div class="contact-icon">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                    <path
+                                        d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Телефон</h3>
+                            </div>
+                        </div>
+                        <div class="contact-card-content">
+                            <p>Подзвоніть нам для швидкої консультації</p>
+                            <a href="tel:+380XXXXXXXXX" class="contact-link">
+                                +380 XX XXX XX XX →
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Другий рядок: Адреса та Години роботи -->
+                <div class="contact-row">
+                    <!-- Address Card -->
+                    <article class="contact-card">
+                        <div class="contact-card-header">
+                            <div class="contact-icon">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                    <path
+                                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Адреса</h3>
+                            </div>
+                        </div>
+                        <div class="contact-card-content">
+                            <p>вул. Рівненська, 54<br>Луцьк, Волинська область</p>
+                            <a href="https://maps.google.com/maps?q=SIRKO%20club,%20Рівненська%20вулиця,%2054,%20Луцьк"
+                                target="_blank" class="contact-link">
+                                Дивитись на карті →
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Working Hours Card -->
+                    <article class="contact-card">
+                        <div class="contact-card-header">
+                            <div class="contact-icon">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                    <path
+                                        d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Години роботи</h3>
+                            </div>
+                        </div>
+                        <div class="contact-card-content">
+                            <p>Пн-Пт: 9:00 - 20:00<br>
+                                Сб-Нд: 10:00 - 18:00</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Третій рядок: Соціальні мережі та Кнопки дій -->
+                <div class="bottom-section">
+                    <!-- Соціальні мережі (зліва) -->
+                    <aside class="social-links-section">
+                        <h3>Соціальні мережі</h3>
+                        <div class="social-grid">
+                            <a href="https://www.instagram.com/lutsk.kinolog?igsh=MTYwcnB3Nm44OXVwNA==" target="_blank"
+                                rel="noopener noreferrer" class="social-card">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                                <span>Instagram</span>
+                            </a>
+
+                            <a href="https://t.me/Pracontanaaa" target="_blank" rel="noopener noreferrer"
+                                class="social-card">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                                </svg>
+                                <span>Telegram</span>
+                            </a>
+
+                            <a href="https://www.tiktok.com/@sirko.club?_r=1&_t=ZM-92Ig7ONDnJI" target="_blank"
+                                rel="noopener noreferrer" class="social-card">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                                </svg>
+                                <span>TikTok</span>
+                            </a>
+
+                            <a href="https://www.facebook.com/profile.php?id=61576898876985" target="_blank"
+                                rel="noopener noreferrer" class="social-card">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                </svg>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </aside>
+
+                    <!-- Кнопки дій (справа) -->
+                    <div class="action-buttons">
+                        <button class="action-btn"
+                            onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSfRU9V35muURrDXWjqPRwVCENJERjDULEuLizLu45C7HAdxSQ/viewform'">Записатись
+                            зараз</button>
+                        <button class="action-btn" id="openReviewFormBtn">
+                            <span>Написати відгук</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Модальне вікно для відгуку -->
+                <div class="modal" id="reviewModal">
+                    <div class="modal-content">
+                        <button class="modal-close" id="closeReviewModal">&times;</button>
+                        <div class="review-form">
+                            <h3>Написати відгук</h3>
+                            <div class="form-success" id="reviewSuccessMessage" style="display: none;">
+                                ✓ Дякуємо за ваш відгук! Він буде опублікований після модерації.
+                            </div>
+                            <form id="reviewForm">
+                                <div class="form-group">
+                                    <label for="reviewName">Ваше ім'я *</label>
+                                    <input type="text" id="reviewName" name="reviewName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reviewText">Ваш відгук *</label>
+                                    <textarea id="reviewText" name="reviewText" rows="5"
+                                        placeholder="Поділіться вашим досвідом співпраці з нами..." required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Оцінка</label>
+                                    <div class="rating-stars">
+                                        <span class="star" data-rating="1">★</span>
+                                        <span class="star" data-rating="2">★</span>
+                                        <span class="star" data-rating="3">★</span>
+                                        <span class="star" data-rating="4">★</span>
+                                        <span class="star" data-rating="5">★</span>
+                                    </div>
+                                    <input type="hidden" id="rating" name="rating" value="5">
+                                </div>
+                                <button type="submit" class="btn-submit">Відправити відгук</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карта на всю ширину -->
+                <aside class="map-section" aria-labelledby="location-title">
+                    <h3 id="location-title">📍 SIRKO CLUB на карті</h3>
+
+                    <div class="map-container">
+                        <div class="map-info">
+                            <h4>SIRKO CLUB</h4>
+                            <p><strong>Центр розвитку собак</strong><br>
+                                вул. Рівненська, 54, Луцьк</p>
+                        </div>
+
+                        <iframe
+                            src="https://maps.google.com/maps?q=SIRKO%20club,%20Рівненська%20вулиця,%2054,%20Луцьк&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            width="100%" height="450" frameborder="0" style="border:0; display: block;"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <!-- Footer - без змін -->
+        <footer role="contentinfo">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SIRKO CLUB</h4>
+                    <p>Професійний кінологічний центр, що надає комплексні послуги з тренування та догляду за вашими
+                        улюбленцями.</p>
+                </div>
+                <nav class="footer-section" aria-label="Швидкі посилання">
+                    <h4>Швидкі посилання</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Головна</a></li>
+                        <li><a href="index.html#services">Послуги</a></li>
+                        <li><a href="index.html#testimonials">Відгуки</a></li>
+                        <li><a href="index.html#gallery">Галерея</a></li>
+                    </ul>
+                </nav>
+                <address class="footer-section">
+                    <h4>Контакти</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+380XXXXXXXXX">+380 XX XXX XX XX</a></li>
+                        <li><a href="mailto:info@sirkoclub.com">info@sirkoclub.com</a></li>
+                        <li>вул. Рівненська, 54</li>
+                        <li>Луцьк, Волинь, Україна</li>
+                    </ul>
+                </address>
+            </div>
+            <div class="footer-bottom">
+                © 2025 SIRKO CLUB. Всі права захищені.
+            </div>
+        </footer>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" aria-label="Прокрутити вгору">↑</button>
+
+    <script src="contact.js"></script>
+</body>
+
+</html>
