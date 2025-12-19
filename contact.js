@@ -209,7 +209,7 @@ const reviewForm = document.getElementById('reviewForm');
 const reviewSuccessMessage = document.getElementById('reviewSuccessMessage');
 
 // URL Google Apps Script 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrGX6oagWfYIX0yBgjsiUEWExOKE1xXm1zu3pqAXcf0HqhIQsBnXSRseYWfYsdDHa-/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyWewWZpcIXyc_TzVApCog7Q-Iiz8qz1u9a4nTXfGnLfuaS0y2kYeM5XRG1uGQ69WS/exec';
 
 if (reviewForm && reviewSuccessMessage) {
     reviewForm.addEventListener('submit', async (e) => {
