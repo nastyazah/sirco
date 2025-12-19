@@ -139,11 +139,11 @@ if (openReviewFormBtn && reviewModal && closeReviewModal) {
     });
 }
 
-// Обробка відгуку (з відправкою в Google Sheets)
+// Обробка відгуку 
 const reviewForm = document.getElementById('reviewForm');
 const reviewSuccessMessage = document.getElementById('reviewSuccessMessage');
 
-// URL Google Apps Script 
+
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYAUufFZGrtr2mvcRWCkCiiVWVdA4IEBuxxj35qPyuPk7F2mtUBYEqQo4wO5dr9FcL/exec';
 
 if (reviewForm && reviewSuccessMessage) {
