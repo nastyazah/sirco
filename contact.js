@@ -139,77 +139,12 @@ if (openReviewFormBtn && reviewModal && closeReviewModal) {
     });
 }
 
-// Обробка форми зворотнього зв'язку
-const contactForm = document.getElementById('contactForm');
-const successMessage = document.getElementById('successMessage');
-
-if (contactForm && successMessage) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Отримання даних з форми
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
-
-        // Валідація форми
-        if (!formData.name || !formData.email || !formData.message) {
-            alert('Будь ласка, заповніть всі обов\'язкові поля (*)');
-            return;
-        }
-
-        // Перевірка email
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(formData.email)) {
-            alert('Будь ласка, введіть коректну email адресу');
-            return;
-        }
-
-        // Деактивація кнопки відправки
-        const submitBtn = contactForm.querySelector('.btn-submit');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Відправляється...';
-
-        try {
-            // Симуляція відправки форми 
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            // Показати повідомлення про успіх
-            successMessage.style.display = 'block';
-
-            // Очистити форму
-            contactForm.reset();
-
-            // Сховати повідомлення через 5 секунд
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
-
-            // Логування даних форми (для розробки)
-            console.log('Форму відправлено:', formData);
-
-
-        } catch (error) {
-            console.error('Помилка при відправці форми:', error);
-            alert('Виникла помилка при відправці форми. Спробуйте ще раз.');
-        } finally {
-            // Повторна активація кнопки
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Відправити повідомлення';
-        }
-    });
-}
-
 // Обробка відгуку (з відправкою в Google Sheets)
 const reviewForm = document.getElementById('reviewForm');
 const reviewSuccessMessage = document.getElementById('reviewSuccessMessage');
 
 // URL Google Apps Script 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyWewWZpcIXyc_TzVApCog7Q-Iiz8qz1u9a4nTXfGnLfuaS0y2kYeM5XRG1uGQ69WS/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYAUufFZGrtr2mvcRWCkCiiVWVdA4IEBuxxj35qPyuPk7F2mtUBYEqQo4wO5dr9FcL/exec';
 
 if (reviewForm && reviewSuccessMessage) {
     reviewForm.addEventListener('submit', async (e) => {
