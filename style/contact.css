@@ -1,0 +1,1418 @@
+/* =================================
+   Базові стилі та змінні
+   ================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: linear-gradient(135deg, #fef8f3 0%, #f5ebe3 100%);
+    --bg-secondary: rgba(255, 252, 249, 0.98);
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --text-primary: #2d1f16;
+    --text-secondary: #6b5747;
+    --accent: #c4956c;
+    --accent-hover: #a87c53;
+    --shadow: rgba(100, 80, 60, 0.12);
+    --transition: all 0.3s ease;
+}
+
+[data-theme="dark"] {
+    --bg-primary: linear-gradient(135deg, #2c2416 0%, #1a1612 100%);
+    --bg-secondary: #1f1c18;
+    --bg-card: #2a2520;
+    --text-primary: #e8e8e8;
+    --text-secondary: #b8b8b8;
+    --accent: #b8956f;
+    --accent-hover: #a38560;
+    --shadow: rgba(0, 0, 0, 0.3);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: var(--transition);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    background: var(--bg-secondary);
+    min-height: 100vh;
+    position: relative;
+}
+
+/* =================================
+   Декоративні лапки по боках (для обох тем)
+   ================================= */
+.paw-decoration {
+    position: absolute;
+    top: 1000px;
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="70" rx="20" ry="15" fill="%23a87c53" opacity="0.6"/><ellipse cx="28" cy="45" rx="10" ry="13" fill="%23a87c53" opacity="0.6" transform="rotate(-15 28 45)"/><ellipse cx="40" cy="35" rx="10" ry="13" fill="%23a87c53" opacity="0.6" transform="rotate(-5 40 35)"/><ellipse cx="60" cy="35" rx="10" ry="13" fill="%23a87c53" opacity="0.6" transform="rotate(5 60 35)"/><ellipse cx="72" cy="45" rx="10" ry="13" fill="%23a87c53" opacity="0.6" transform="rotate(15 72 45)"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: pawFadeIn 1s ease-out forwards;
+}
+
+/* Лапки зліва */
+.paw-left-1 {
+    left: 5%;
+    top: 25%;
+    animation-delay: 0.5s;
+}
+
+.paw-left-2 {
+    left: 3%;
+    top: 45%;
+    animation-delay: 1s;
+}
+
+.paw-left-3 {
+    left: 6%;
+    top: 65%;
+    animation-delay: 1.5s;
+}
+
+.paw-left-4 {
+    left: 4%;
+    top: 85%;
+    animation-delay: 2s;
+}
+
+/* Лапки справа */
+.paw-right-1 {
+    right: 5%;
+    top: 30%;
+    animation-delay: 0.7s;
+}
+
+.paw-right-2 {
+    right: 3%;
+    top: 50%;
+    animation-delay: 1.2s;
+}
+
+.paw-right-3 {
+    right: 6%;
+    top: 70%;
+    animation-delay: 1.7s;
+}
+
+.paw-right-4 {
+    right: 4%;
+    top: 90%;
+    animation-delay: 2.2s;
+}
+
+@keyframes pawFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-20deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    100% {
+        opacity: 0.45;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Для темної теми - трохи світліші лапки */
+[data-theme="dark"] .paw-decoration {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="70" rx="20" ry="15" fill="%23b8956f" opacity="0.2"/><ellipse cx="28" cy="45" rx="10" ry="13" fill="%23b8956f" opacity="0.2" transform="rotate(-15 28 45)"/><ellipse cx="40" cy="35" rx="10" ry="13" fill="%23b8956f" opacity="0.2" transform="rotate(-5 40 35)"/><ellipse cx="60" cy="35" rx="10" ry="13" fill="%23b8956f" opacity="0.2" transform="rotate(5 60 35)"/><ellipse cx="72" cy="45" rx="10" ry="13" fill="%23b8956f" opacity="0.2" transform="rotate(15 72 45)"/></svg>');
+}
+
+/* Приховати лапки на маленьких екранах */
+@media (max-width: 768px) {
+    .paw-decoration {
+        display: none;
+    }
+}
+
+/* =================================
+   Header
+   ================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background: var(--bg-card);
+    position: sticky;
+    top: 0;
+    z-index: 97;
+    box-shadow: 0 2px 15px var(--shadow);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(166, 138, 111, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeInLeft 0.6s ease;
+    text-decoration: none;
+}
+
+.logo-fallback {
+    width: 70px;
+    height: 70px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-fallback {
+    transform: scale(1.05) rotate(3deg);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: fadeInRight 0.6s ease;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    transform: rotate(180deg);
+}
+
+.theme-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+}
+
+.menu-icon {
+width: 45px;
+height: 45px;
+cursor: pointer;
+position: relative;
+z-index: 101;
+background: none;
+border: none;
+padding: 5px;
+transition: var(--transition);
+}
+
+.menu-icon:hover {
+transform: scale(1.1);
+}
+
+.menu-icon.active .paw-icon {
+transform: rotate(90deg);
+}
+
+.menu-icon span {
+width: 100%;
+height: 3px;
+background: var(--accent);
+border-radius: 2px;
+transition: var(--transition);
+}
+
+.menu-icon.active span:nth-child(1) {
+transform: rotate(45deg) translate(10px, 10px);
+}
+
+.menu-icon.active span:nth-child(2) {
+opacity: 0;
+}
+
+.menu-icon.active span:nth-child(3) {
+transform: rotate(-45deg) translate(10px, -10px);
+}
+
+.mobile-menu {
+position: fixed;
+top: 0;
+right: -100%;
+width: 280px;
+max-width: 85%;
+height: 100vh;
+background: var(--bg-card);
+box-shadow: -5px 0 25px var(--shadow);
+transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+z-index: 99;
+padding: 80px 30px 30px;
+overflow-y: auto;
+}
+
+.mobile-menu.active {
+right: 0;
+}
+
+.menu-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+background: rgba(0, 0, 0, 0);
+opacity: 0;
+visibility: hidden;
+transition: var(--transition);
+z-index: 98;
+backdrop-filter: blur(4px);
+}
+
+.menu-overlay.active {
+opacity: 1;
+visibility: visible;
+}
+
+.menu-links {
+list-style: none;
+}
+
+.menu-links li {
+margin-bottom: 20px;
+opacity: 0;
+transform: translateX(20px);
+transition: var(--transition);
+}
+
+.mobile-menu.active .menu-links li {
+opacity: 1;
+transform: translateX(0);
+}
+
+.mobile-menu.active .menu-links li:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu.active .menu-links li:nth-child(2) { transition-delay: 0.15s; }
+.mobile-menu.active .menu-links li:nth-child(3) { transition-delay: 0.2s; }
+.mobile-menu.active .menu-links li:nth-child(4) { transition-delay: 0.25s; }
+.mobile-menu.active .menu-links li:nth-child(5) { transition-delay: 0.3s; }
+.mobile-menu.active .menu-links li:nth-child(6) { transition-delay: 0.35s; }
+
+.menu-links a {
+color: var(--text-primary);
+text-decoration: none;
+font-size: 18px;
+font-weight: 500;
+transition: var(--transition);
+display: block;
+padding: 10px 15px 10px 0;
+position: relative;
+}
+
+.menu-links a::before {
+content: '🐾';
+position: absolute;
+left: -30px;
+opacity: 0;
+transform: translateX(-10px) rotate(-20deg);
+transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+font-size: 16px;
+}
+
+.menu-links a::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 0;
+height: 2px;
+background: var(--accent);
+transition: width 0.3s ease;
+}
+
+.menu-links a:hover::before {
+opacity: 1;
+transform: translateX(0) rotate(0deg);
+left: -25px;
+}
+
+.menu-links a:hover::after {
+width: calc(100% - 15px);
+}
+
+.menu-links a:hover {
+color: var(--accent);
+padding-left: 5px;
+}
+
+/* =================================
+   Hero секція (покращена)
+   ================================= */
+.contacts-hero {
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(196, 149, 108, 0.08) 0%, transparent 100%);
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+    z-index: 0;
+}
+
+
+.contacts-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(196, 149, 108, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.contacts-hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-weight: 800;
+    animation: fadeInUp 0.6s ease;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+/* Акцентний кольоровий текст під заголовком */
+.contacts-hero p {
+    font-size: clamp(17px, 3vw, 22px);
+    color: var(--accent);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    animation: fadeInUp 0.8s ease;
+    font-weight: 500;
+    line-height: 1.5;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+/* =================================
+   Основний контейнер контенту (покращений)
+   ================================= */
+
+/* Основний контейнер контенту */
+.contacts-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    position: relative;
+}
+
+/* Декоративні елементи на фоні */
+.contacts-content::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(196, 149, 108, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.contacts-content::after {
+    content: '';
+    position: absolute;
+    bottom: 100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(196, 149, 108, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Рядки з контактними картками (Email/Phone та Address/Hours) */
+.contact-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+/* Нижня секція (Соц.мережі + Кнопки) */
+.bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* =================================
+   Контактні картки (покращені)
+   ================================= */
+.contact-card {
+    top: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 4px 20px rgba(139, 114, 86, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: scaleIn 0.6s ease;
+    animation-fill-mode: both;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(196, 149, 108, 0.1);
+}
+
+/* Видалено ефект обертання іконки */
+.contact-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(139, 114, 86, 0.15);
+    border-color: var(--accent);
+}
+
+/* Світіння при наведенні (як на скріншоті) */
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(196, 149, 108, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.contact-card:hover::before {
+    opacity: 1;
+}
+
+.contact-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.contact-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.contact-card-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.contact-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(196, 149, 108, 0.2);
+}
+
+/* Видалено обертання, замість цього - пульсація */
+.contact-card:hover .contact-icon {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(196, 149, 108, 0.35);
+}
+
+.contact-card h3 {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.contact-card-content p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.contact-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    position: relative;
+}
+
+.contact-link::after {
+    content: '→';
+    transition: transform 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--accent-hover);
+    transform: translateX(5px);
+}
+
+.contact-link:hover::after {
+    transform: translateX(5px);
+}
+
+/* =================================
+   Соціальні мережі (покращені)
+   ================================= */
+.social-links-section {
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 4px 20px rgba(139, 114, 86, 0.08);
+    animation: scaleIn 0.6s ease 0.3s;
+    animation-fill-mode: both;
+    border: 1px solid rgba(196, 149, 108, 0.1);
+    transition: all 0.4s ease;
+}
+
+.social-links-section:hover {
+    box-shadow: 0 8px 30px rgba(139, 114, 86, 0.12);
+}
+
+.social-links-section h3 {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.social-card {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    border-radius: 18px;
+    padding: 25px 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(196, 149, 108, 0.2);
+}
+
+/* Світіння при наведенні */
+.social-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.social-card:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.social-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(196, 149, 108, 0.35);
+}
+
+.social-card svg {
+    width: 42px;
+    height: 42px;
+    transition: transform 0.4s ease;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Збільшення іконки замість обертання */
+.social-card:hover svg {
+    transform: scale(1.15);
+}
+
+.social-card span {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+}
+
+/* =================================
+   Кнопки дій (покращені)
+   ================================= */
+.action-buttons {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 4px 20px rgba(139, 114, 86, 0.08);
+    animation: scaleIn 0.6s ease 0.4s;
+    animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    justify-content: center;
+    border: 1px solid rgba(196, 149, 108, 0.1);
+    transition: all 0.4s ease;
+}
+
+.action-buttons:hover {
+    box-shadow: 0 8px 30px rgba(139, 114, 86, 0.12);
+}
+
+.action-btn {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: white;
+    border: none;
+    padding: 22px 32px;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(196, 149, 108, 0.25);
+}
+
+/* Світіння при наведенні */
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.action-btn:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.action-btn:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(196, 149, 108, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.action-btn svg {
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+}
+
+.action-btn:hover svg {
+    transform: scale(1.1);
+}
+
+.action-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* =================================
+   Модальні вікна (покращені)
+   ================================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 28px;
+    padding: 45px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideInDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(196, 149, 108, 0.15);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.modal-close:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+    background: rgba(196, 149, 108, 0.1);
+}
+
+/* =================================
+   Форми (контакт + відгук) - покращені
+   ================================= */
+.contact-form h3,
+.review-form h3 {
+    font-size: 32px;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(196, 149, 108, 0.15);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(196, 149, 108, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(196, 149, 108, 0.3);
+}
+
+.btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-submit:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(196, 149, 108, 0.45);
+}
+
+.btn-submit:active {
+    transform: translateY(-1px);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.form-success {
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    color: white;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: slideInDown 0.4s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    font-weight: 600;
+}
+
+/* =================================
+   Рейтинг зірок (для відгуків) - покращений
+   ================================= */
+.rating-stars {
+    display: flex;
+    gap: 10px;
+    font-size: 36px;
+    cursor: pointer;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.star {
+    color: #ddd;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.star:hover,
+.star.active {
+    color: #FFD700;
+    transform: scale(1.25) rotate(15deg);
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+}
+
+.star:active {
+    transform: scale(1.1) rotate(0deg);
+}
+
+/* =================================
+   Карта (покращена)
+   ================================= */
+.map-section {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 4px 20px rgba(139, 114, 86, 0.08);
+    animation: fadeInUp 0.8s ease 0.6s;
+    animation-fill-mode: both;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(196, 149, 108, 0.1);
+}
+
+.map-section:hover {
+    box-shadow: 0 12px 40px rgba(139, 114, 86, 0.15);
+    transform: translateY(-3px);
+}
+
+.map-section h3 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding-top: 15px;
+    background: linear-gradient(135deg, rgba(196, 149, 108, 0.03) 0%, rgba(196, 149, 108, 0.08) 100%);
+    transition: all 0.4s ease;
+}
+
+[data-theme="dark"] .map-container {
+    background: linear-gradient(135deg, rgba(60, 50, 40, 0.3) 0%, rgba(40, 35, 30, 0.5) 100%);
+}
+
+.map-container:hover {
+    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.18);
+    transform: scale(1.01);
+}
+
+.map-info {
+    padding: 0 25px 25px 25px;
+}
+
+.map-info h4 {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.map-info p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.map-info strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+.map-container:hover iframe {
+    filter: saturate(1.1) brightness(1.02);
+}
+
+/* =================================
+   Footer
+   ================================= */
+footer {
+    background: var(--bg-card);
+    padding: 40px 20px;
+    animation: fadeIn 0.8s ease;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition);
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(155, 130, 102, 0.2);
+    padding-top: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    max-width: 1200px;
+    margin: 30px auto 0;
+}
+
+/* =================================
+   Progress Bar і Scroll Top - покращені
+   ================================= */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%);
+    z-index: 101;
+    transition: width 0.1s ease;
+    box-shadow: 0 2px 10px rgba(196, 149, 108, 0.3);
+}
+
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 8px 30px rgba(196, 149, 108, 0.5);
+}
+
+.scroll-top:active {
+    transform: translateY(-5px) scale(1.05);
+}
+
+/* =================================
+   Анімації
+   ================================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   Адаптивність
+   ================================= */
+
+/* Планшети */
+@media (max-width: 768px) {
+
+    /* Нижня секція стає вертикальною */
+    .bottom-section {
+        grid-template-columns: 1fr;
+    }
+
+    /* Модальні вікна займають більше місця */
+    .modal-content {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    /* Зменшення розміру карток */
+    .contact-card {
+        padding: 20px;
+    }
+
+    .action-btn {
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Мобільні пристрої */
+@media (max-width: 480px) {
+
+    /* Рядки з картками стають вертикальними */
+    .contact-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Соц.мережі в один стовпець */
+    .social-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Зменшення шрифтів */
+    .contact-card h3 {
+        font-size: 20px;
+    }
+
+    .contact-card {
+        padding: 25px;
+    }
+
+    .action-btn {
+        font-size: 16px;
+        padding: 18px 24px;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+    }
+
+    .contacts-hero {
+        padding: 60px 15px 40px;
+    }
+
+    .contacts-hero h1 {
+        font-size: 30px;
+    }
+
+    .contacts-hero p {
+        font-size: 16px;
+    }
+
+    .contact-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .rating-stars {
+        font-size: 32px;
+        gap: 8px;
+    }
+}
+
+/* =================================
+   Додаткові покращення
+   ================================= */
+
+/* Плавна анімація при появі елементів */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Покращення для темної теми */
+[data-theme="dark"] .contact-card,
+[data-theme="dark"] .social-links-section,
+[data-theme="dark"] .action-buttons,
+[data-theme="dark"] .map-section {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(196, 149, 108, 0.2);
+}
+
+[data-theme="dark"] .contact-card:hover,
+[data-theme="dark"] .social-links-section:hover,
+[data-theme="dark"] .action-buttons:hover,
+[data-theme="dark"] .map-section:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Покращення для плавності */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Приховання скролбару для модального вікна (опціонально) */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Поліпшення фокусу для доступності */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Анімація для декоративних елементів */
+.contacts-content::before,
+.contacts-content::after {
+    animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.05);
+    }
+}
