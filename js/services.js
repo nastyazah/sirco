@@ -1,115 +1,500 @@
- document.querySelectorAll('.faq-item').forEach(item => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        const isOpen = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!isOpen) item.classList.add('active');
-      });
-    });
+// === CONFIG ===
+const CONFIG = {
+  paw: {
+    steps: { min: 3, max: 4 },
+    stepDist: { min: 40, max: 70 },
+    interval: { min: 3000, max: 8000 },
+    duration: 1800,
+  },
+  scrollOffset: 300,
+  themes: { light: 'light', dark: 'dark' },
+  logos: { light: 'img/light.png', dark: 'img/dark.png' },
+  parallax: {
+    hero: 0.5,
+    sections: 0.3,
+  },
+};
 
-    /* ---------- тема, меню, скрол ---------- */
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
-    const logoImg = document.getElementById('logoImg');
-    const logoFallback = document.getElementById('logoFallback');
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', savedTheme);
+// === UTILS ===
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+const rand = (min, max) => Math.random() * (max - min) + min;
 
-    function updateLogos(theme) {
-      const logoPath = theme === 'dark' ? 'img/dark.png' : 'img/light.png';
-      logoImg.src = logoPath;
-      logoImg.onerror = () => { logoImg.style.display='none'; logoFallback.style.display='flex'; };
-      logoImg.onload = () => { logoImg.style.display='block'; logoFallback.style.display='none'; };
+// === DOM CACHE ===
+const DOM = {
+  html: document.documentElement,
+  body: document.body,
+  header: $('header'),
+  themeToggle: $('#themeToggle'),
+  logoImg: $('#logoImg'),
+  logoFallback: $('#logoFallback'),
+  menuToggle: $('#menuToggle'),
+  mobileMenu: $('#mobileMenu'),
+  menuOverlay: $('#menuOverlay'),
+  closeMenuBtn: $('#closeMenuBtn'),
+  scrollTopBtn: $('#scrollTop'),
+  menuLinks: $$('.menu-links a'),
+  faqItems: $$('.faq-item'),
+  hero: $('.hero'),
+  serviceCards: $$('.service-card'),
+  infoCards: $$('.info-card'),
+  sections: $$('section'),
+};
+
+// === THEME & LOGO ===
+function applyTheme(theme) {
+  DOM.html.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  
+  if (!DOM.logoImg) return;
+  
+  const path = CONFIG.logos[theme];
+  DOM.logoImg.src = path;
+  DOM.logoImg.onerror = () => {
+    DOM.logoImg.style.display = 'none';
+    DOM.logoFallback?.style.setProperty('display', 'flex');
+  };
+  DOM.logoImg.onload = () => {
+    DOM.logoImg.style.display = 'block';
+    DOM.logoFallback?.style.setProperty('display', 'none');
+  };
+}
+
+function initTheme() {
+  if (!DOM.themeToggle) return;
+  
+  const savedTheme = localStorage.getItem('theme') || CONFIG.themes.light;
+  applyTheme(savedTheme);
+  
+  DOM.themeToggle.addEventListener('click', () => {
+    const current = DOM.html.getAttribute('data-theme');
+    const next = current === CONFIG.themes.light ? CONFIG.themes.dark : CONFIG.themes.light;
+    applyTheme(next);
+    
+    // Add ripple effect
+    createRipple(DOM.themeToggle);
+  });
+}
+
+// === RIPPLE EFFECT ===
+function createRipple(element) {
+  const ripple = document.createElement('span');
+  const rect = element.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  
+  ripple.style.cssText = `
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    width: ${size}px;
+    height: ${size}px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-animation 0.6s ease-out;
+    pointer-events: none;
+  `;
+  
+  element.style.position = 'relative';
+  element.style.overflow = 'hidden';
+  element.appendChild(ripple);
+  
+  setTimeout(() => ripple.remove(), 600);
+}
+
+// === MOBILE MENU ===
+function toggleMenu(forceClose = false) {
+  const active = forceClose ? false : DOM.mobileMenu?.classList.toggle('active');
+  
+  [DOM.mobileMenu, DOM.menuToggle, DOM.menuOverlay].forEach(el => {
+    el?.classList.toggle('active', active);
+  });
+  
+  DOM.menuToggle?.setAttribute('aria-expanded', active);
+  DOM.menuOverlay?.setAttribute('aria-hidden', !active);
+  DOM.body.style.overflow = active ? 'hidden' : '';
+}
+
+function initMenu() {
+  DOM.menuToggle?.addEventListener('click', () => toggleMenu());
+  DOM.closeMenuBtn?.addEventListener('click', () => toggleMenu(true));
+  DOM.menuOverlay?.addEventListener('click', () => toggleMenu(true));
+  DOM.menuLinks.forEach(link => link.addEventListener('click', () => toggleMenu(true)));
+  
+  // Close menu on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && DOM.mobileMenu?.classList.contains('active')) {
+      toggleMenu(true);
     }
-    updateLogos(savedTheme);
+  });
+}
 
-    themeToggle.addEventListener('click', () => {
-      const current = html.getAttribute('data-theme');
-      const newTheme = current === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateLogos(newTheme);
+// === FAQ ===
+function initFAQ() {
+  document.addEventListener('click', e => {
+    const question = e.target.closest('.faq-question');
+    if (!question) return;
+    
+    const item = question.parentElement;
+    const wasOpen = item.classList.contains('active');
+    
+    DOM.faqItems.forEach(i => {
+      i.classList.remove('active');
+      const answer = i.querySelector('.faq-answer');
+      if (answer) answer.style.maxHeight = null;
     });
-
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const closeMenuBtn = document.getElementById('closeMenuBtn');
-
-    function toggleMenu() {
-      const isActive = mobileMenu.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-      menuOverlay.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isActive);
-      menuOverlay.setAttribute('aria-hidden', !isActive);
-      document.body.style.overflow = isActive ? 'hidden' : '';
-    }
-
-    function closeMenu() {
-      mobileMenu.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuOverlay.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuOverlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    menuToggle.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', closeMenu);
-    closeMenuBtn.addEventListener('click', closeMenu);
-
-    document.querySelectorAll('.menu-links a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
-
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-      scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    /* ========= DOG-WALK PAW SEQUENCE ========= */
-    const PAW_SVG = `<svg viewBox="0 0 100 100">
-      <ellipse cx="50" cy="70" rx="20" ry="15"/>
-      <ellipse cx="28" cy="45" rx="10" ry="13" transform="rotate(-15 28 45)"/>
-      <ellipse cx="40" cy="35" rx="10" ry="13" transform="rotate(-5 40 35)"/>
-      <ellipse cx="60" cy="35" rx="10" ry="13" transform="rotate(5 60 35)"/>
-      <ellipse cx="72" cy="45" rx="10" ry="13" transform="rotate(15 72 45)"/>
-    </svg>`;
-
-    function rand(min, max) { return Math.random() * (max - min) + min; }
-
-    function createPawSequence() {
-      const steps = Math.round(rand(3, 4));
-      const angle = rand(0, 360) * Math.PI / 180;
-      const stepDist = rand(40, 70);
-      const duration = 1800;
-
-      let x = rand(5, 95);
-      let y = rand(5, 95);
-      let side = Math.random() < 0.5 ? 'left' : 'right';
-
-      for (let i = 0; i < steps; i++) {
-        setTimeout(() => {
-          const paw = document.createElement('div');
-          paw.className = 'paw-print ' + side;
-          paw.innerHTML = PAW_SVG;
-          paw.style.left = x + '%';
-          paw.style.top  = y + '%';
-          document.body.appendChild(paw);
-
-          paw.style.animation = `pawFade ${duration}ms ease-out forwards`;
-          paw.addEventListener('animationend', () => paw.remove());
-
-          x += Math.cos(angle) * stepDist / window.innerWidth * 100;
-          y += Math.sin(angle) * stepDist / window.innerHeight * 100;
-          side = side === 'left' ? 'right' : 'left';
-        }, i * (duration * 0.4));
+    
+    if (!wasOpen) {
+      item.classList.add('active');
+      const answer = item.querySelector('.faq-answer');
+      if (answer) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
       }
     }
-
-    setTimeout(createPawSequence, 800);
-    setInterval(createPawSequence, rand(3000, 8000));
+  });
+  
+  // Keyboard navigation for FAQ
+  DOM.faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    if (!question) return;
     
+    question.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        question.click();
+      }
+    });
+  });
+}
+
+// === SCROLL TO TOP ===
+let lastScrollY = window.pageYOffset;
+let ticking = false;
+
+function initScrollTop() {
+  if (!DOM.scrollTopBtn) return;
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  
+  DOM.scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function handleScroll() {
+  const currentScrollY = window.pageYOffset;
+  
+  // Show/hide scroll to top button
+  DOM.scrollTopBtn?.classList.toggle('visible', currentScrollY > CONFIG.scrollOffset);
+  
+  // Hide/show header on scroll
+  if (DOM.header) {
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      DOM.header.classList.add('header-hidden');
+    } else {
+      DOM.header.classList.remove('header-hidden');
+    }
+    
+    // Add elevation to header when scrolled
+    DOM.header.classList.toggle('header-elevated', currentScrollY > 50);
+  }
+  
+  lastScrollY = currentScrollY;
+  
+  // Parallax effects
+  handleParallax();
+  
+  // Scroll reveal animations
+  handleScrollReveal();
+}
+
+// === PARALLAX EFFECTS ===
+function handleParallax() {
+  const scrollY = window.pageYOffset;
+  
+  // Hero parallax
+  if (DOM.hero) {
+    const heroOffset = scrollY * CONFIG.parallax.hero;
+    DOM.hero.style.transform = `translateY(${heroOffset}px)`;
+    
+    const heroBefore = DOM.hero.querySelector('::before');
+    if (heroBefore) {
+      DOM.hero.style.setProperty('--parallax-offset', `${heroOffset * 0.3}px`);
+    }
+  }
+}
+
+// === SCROLL REVEAL ANIMATIONS ===
+function handleScrollReveal() {
+  const elements = $$('.service-card, .info-card, .faq-item, .section-title');
+  
+  elements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+    
+    if (isVisible && !el.classList.contains('revealed')) {
+      el.classList.add('scroll-reveal', 'revealed');
+    }
+  });
+}
+
+// === 3D CARD TILT EFFECT ===
+function init3DTilt() {
+  // Info cards tilt only
+  DOM.infoCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
+      
+      card.style.transform = `
+        perspective(800px) 
+        rotateX(${rotateX}deg) 
+        rotateY(${rotateY}deg) 
+        translateY(-10px) 
+        scale(1.02)
+      `;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+// === MAGNETIC BUTTONS ===
+function initMagneticButtons() {
+  const buttons = $('.btn-book, .btn-large');
+  
+  buttons.forEach(button => {
+    button.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const moveX = x * 0.3;
+      const moveY = y * 0.3;
+      
+      button.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+    });
+    
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = '';
+    });
+  });
+}
+
+// === PAW PRINTS ===
+const PAW_SVG = `
+<svg viewBox="0 0 100 100">
+  <ellipse cx="50" cy="70" rx="20" ry="15"/>
+  <ellipse cx="28" cy="45" rx="10" ry="13" transform="rotate(-15 28 45)"/>
+  <ellipse cx="40" cy="35" rx="10" ry="13" transform="rotate(-5 40 35)"/>
+  <ellipse cx="60" cy="35" rx="10" ry="13" transform="rotate(5 60 35)"/>
+  <ellipse cx="72" cy="45" rx="10" ry="13" transform="rotate(15 72 45)"/>
+</svg>`;
+
+function createPawPrint() {
+  const steps = Math.round(rand(CONFIG.paw.steps.min, CONFIG.paw.steps.max));
+  const angle = rand(0, 360) * Math.PI / 180;
+  const stepDist = rand(CONFIG.paw.stepDist.min, CONFIG.paw.stepDist.max);
+  const duration = CONFIG.paw.duration;
+
+  let x = rand(5, 95);
+  let y = rand(5, 95);
+  let side = Math.random() < 0.5 ? 'left' : 'right';
+
+  for (let i = 0; i < steps; i++) {
+    setTimeout(() => {
+      const paw = document.createElement('div');
+      paw.className = `paw-print ${side}`;
+      paw.innerHTML = PAW_SVG;
+      paw.style.cssText = `left: ${x}%; top: ${y}%; animation: pawFade ${duration}ms ease-out forwards`;
+      
+      paw.addEventListener('animationend', () => paw.remove(), { once: true });
+      DOM.body.appendChild(paw);
+
+      x += (Math.cos(angle) * stepDist) / window.innerWidth * 100;
+      y += (Math.sin(angle) * stepDist) / window.innerHeight * 100;
+      
+      // Keep within bounds
+      x = Math.max(5, Math.min(95, x));
+      y = Math.max(5, Math.min(95, y));
+      
+      side = side === 'left' ? 'right' : 'left';
+    }, i * (duration * 0.4));
+  }
+}
+
+function initPawPrints() {
+  setTimeout(createPawPrint, 800);
+  
+  const scheduleNext = () => {
+    const delay = rand(CONFIG.paw.interval.min, CONFIG.paw.interval.max);
+    setTimeout(() => {
+      createPawPrint();
+      scheduleNext();
+    }, delay);
+  };
+  
+  scheduleNext();
+}
+
+// === INTERACTIVE CURSOR EFFECT ===
+function initCursorEffect() {
+  if (window.innerWidth < 768) return; // Skip on mobile
+  
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  cursor.style.cssText = `
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+  `;
+  DOM.body.appendChild(cursor);
+  
+  let mouseX = 0, mouseY = 0;
+  let cursorX = 0, cursorY = 0;
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.opacity = '1';
+  });
+  
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+  });
+  
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.1;
+    cursorY += (mouseY - cursorY) * 0.1;
+    
+    cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px)`;
+    requestAnimationFrame(animateCursor);
+  }
+  
+  animateCursor();
+  
+  // Expand cursor on interactive elements
+  const interactiveElements = $$('a, button, .service-card, .info-card');
+  
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = `translate(${cursorX - 15}px, ${cursorY - 15}px) scale(1.5)`;
+      cursor.style.borderColor = 'var(--accent-bold)';
+    });
+    
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px) scale(1)`;
+      cursor.style.borderColor = 'var(--accent)';
+    });
+  });
+}
+
+// === SMOOTH SCROLL FOR ANCHOR LINKS ===
+function initSmoothScroll() {
+  $$('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (href === '#') return;
+      
+      e.preventDefault();
+      const target = $(href);
+      
+      if (target) {
+        const offsetTop = target.offsetTop - 80; // Account for fixed header
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+// === PRELOAD CRITICAL IMAGES ===
+function preloadImages() {
+  const images = ['img/light.png', 'img/dark.png'];
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
+// === PERFORMANCE: DEBOUNCE RESIZE ===
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    // Recalculate 3D tilt if needed
+    if (window.innerWidth >= 768) {
+      init3DTilt();
+    }
+  }, 250);
+});
+
+// === ADD CSS ANIMATIONS DYNAMICALLY ===
+function injectAnimations() {
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple-animation {
+      to {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// === INIT ALL ===
+function init() {
+  injectAnimations();
+  preloadImages();
+  initTheme();
+  initMenu();
+  initFAQ();
+  initScrollTop();
+  initPawPrints();
+  init3DTilt();
+  initMagneticButtons();
+  initCursorEffect();
+  initSmoothScroll();
+  handleScrollReveal(); // Initial check
+  
+  // Add loaded class for animations
+  setTimeout(() => {
+    DOM.body.classList.add('loaded');
+  }, 100);
+}
+
+// Start when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+
+
