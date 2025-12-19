@@ -17,7 +17,8 @@ const App = {
     constants: {
         GALLERY_IMAGES_COUNT: 27,
         MOBILE_BREAKPOINT: 768,
-        TABLET_BREAKPOINT: 1024
+        TABLET_BREAKPOINT: 1024,
+        THEME_STORAGE_KEY: 'sirko-theme'
     },
 
     // Ініціалізація
@@ -30,21 +31,38 @@ const App = {
         this.initGallery();
         this.initLightbox();
         this.initScrollTop();
-        this.initScrollAnimations(); // Замість initAnimations
+        this.initScrollAnimations();
         this.initKeyboardNav();
+        this.initVisibilityOptimizations();
         this.hideLoading();
+        this.initReviewsManager();
     },
 
     // ================================
-    // ТЕМА
+    // ТЕМА (ВИПРАВЛЕНО)
     // ================================
     loadTheme() {
         try {
-            this.state.theme = 'light';
+            // Завантажуємо збережену тему або визначаємо за системними налаштуваннями
+            const savedTheme = localStorage.getItem(this.constants.THEME_STORAGE_KEY);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            this.state.theme = savedTheme || (prefersDark ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', this.state.theme);
             this.updateLogos(this.state.theme);
+            
+            // Слухаємо зміни системної теми
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem(this.constants.THEME_STORAGE_KEY)) {
+                    this.state.theme = e.matches ? 'dark' : 'light';
+                    document.documentElement.setAttribute('data-theme', this.state.theme);
+                    this.updateLogos(this.state.theme);
+                }
+            });
         } catch (e) {
             console.warn('Помилка завантаження теми:', e);
+            this.state.theme = 'light';
+            document.documentElement.setAttribute('data-theme', 'light');
         }
     },
 
@@ -74,6 +92,14 @@ const App = {
 
         toggle.addEventListener('click', () => {
             this.state.theme = this.state.theme === 'light' ? 'dark' : 'light';
+            
+            // Зберігаємо вибір користувача
+            try {
+                localStorage.setItem(this.constants.THEME_STORAGE_KEY, this.state.theme);
+            } catch (e) {
+                console.warn('Не вдалося зберегти тему:', e);
+            }
+            
             document.documentElement.setAttribute('data-theme', this.state.theme);
             this.updateLogos(this.state.theme);
         });
@@ -83,15 +109,23 @@ const App = {
     // ПРОГРЕС БАР
     // ================================
     initProgressBar() {
+        let ticking = false;
+        
         const updateProgress = () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             const bar = document.getElementById('progressBar');
             if (bar) bar.style.width = scrolled + '%';
+            ticking = false;
         };
 
-        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateProgress);
+                ticking = true;
+            }
+        }, { passive: true });
     },
 
     // ================================
@@ -171,7 +205,7 @@ const App = {
     },
 
     // ================================
-    // ГАЛЕРЕЯ (GRID + ПАГІНАЦІЯ)
+    // ГАЛЕРЕЯ (GRID + ПАГІНАЦІЯ) - ОПТИМІЗОВАНО
     // ================================
     initGallery() {
         this.updateImagesPerPage();
@@ -265,6 +299,23 @@ const App = {
         });
 
         this.updateGalleryButtons();
+        
+        // Preload наступної сторінки для плавного UX
+        this.preloadNextGalleryPage();
+    },
+
+    preloadNextGalleryPage() {
+        const totalPages = this.getTotalPages();
+        if (this.state.currentGalleryPage < totalPages - 1) {
+            const nextPage = this.state.currentGalleryPage + 1;
+            const start = nextPage * this.state.imagesPerPage;
+            const end = Math.min(start + this.state.imagesPerPage, this.constants.GALLERY_IMAGES_COUNT);
+            
+            for (let i = start; i < end; i++) {
+                const img = new Image();
+                img.src = `img/img${i + 1}.jpg`;
+            }
+        }
     },
 
     updateGalleryButtons() {
@@ -277,7 +328,7 @@ const App = {
     },
 
     // ================================
-    // LIGHTBOX (МОДАЛЬНЕ ВІКНО)
+    // LIGHTBOX (МОДАЛЬНЕ ВІКНО) - ВИПРАВЛЕНО
     // ================================
     initLightbox() {
         const lightbox = document.getElementById('lightbox');
@@ -316,10 +367,16 @@ const App = {
         
         lightbox.classList.add('active');
         lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        
+        // ВИПРАВЛЕНО: Фіксуємо body position замість просто overflow
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.dataset.scrollY = scrollY;
 
         void img.offsetWidth;
-        img.style.animation = 'fadeIn 0.3s ease';
+        img.style.animation = 'zoomIn 0.3s ease';
     },
 
     closeLightbox() {
@@ -328,7 +385,15 @@ const App = {
 
         lightbox.classList.remove('active');
         lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        
+        // ВИПРАВЛЕНО: Відновлюємо scroll position
+        const scrollY = document.body.dataset.scrollY;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        if (scrollY) {
+            window.scrollTo(0, parseInt(scrollY));
+        }
     },
 
     lightboxPrev() {
@@ -363,7 +428,7 @@ const App = {
         void img.offsetWidth;
         img.style.animation = 'none';
         setTimeout(() => {
-            img.style.animation = 'fadeIn 0.3s ease';
+            img.style.animation = 'zoomIn 0.3s ease';
         }, 10);
     },
 
@@ -418,15 +483,23 @@ const App = {
         const btn = document.getElementById('scrollTop');
         if (!btn) return;
 
+        let ticking = false;
+        
         const checkScroll = () => {
             if (window.pageYOffset > 300) {
                 btn.classList.add('visible');
             } else {
                 btn.classList.remove('visible');
             }
+            ticking = false;
         };
 
-        window.addEventListener('scroll', checkScroll, { passive: true });
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(checkScroll);
+                ticking = true;
+            }
+        }, { passive: true });
 
         btn.addEventListener('click', () => {
             window.scrollTo({
@@ -437,10 +510,9 @@ const App = {
     },
 
     // ================================
-    // АНІМАЦІЇ ПРИ СКРОЛІ - ОНОВЛЕНО
+    // АНІМАЦІЇ ПРИ СКРОЛІ
     // ================================
     initScrollAnimations() {
-        // Intersection Observer тільки для елементів без CSS анімацій
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -449,7 +521,6 @@ const App = {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Тільки для section, які не мають власних CSS анімацій
                     if (entry.target.classList.contains('section')) {
                         entry.target.style.opacity = '1';
                     }
@@ -457,10 +528,45 @@ const App = {
             });
         }, observerOptions);
 
-        // Спостерігаємо тільки за секціями, НЕ за картками
         document.querySelectorAll('.section').forEach(el => {
             observer.observe(el);
         });
+    },
+
+    // ================================
+    // ОПТИМІЗАЦІЯ ВИДИМОСТІ (НОВЕ)
+    // ================================
+    initVisibilityOptimizations() {
+        const testimonialsContainer = document.querySelector('.testimonials-container');
+        const track = document.querySelector('.testimonials-track');
+        
+        if (!testimonialsContainer || !track) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    testimonialsContainer.classList.add('in-viewport');
+                } else {
+                    testimonialsContainer.classList.remove('in-viewport');
+                    // Зупиняємо анімацію, коли не видно
+                    if (!this.state.isTestimonialsPaused) {
+                        track.style.animationPlayState = 'paused';
+                    }
+                }
+            });
+        }, { threshold: 0 });
+
+        observer.observe(testimonialsContainer);
+    },
+
+    // ================================
+    // ІНІЦІАЛІЗАЦІЯ REVIEWS MANAGER (НОВЕ)
+    // ================================
+    initReviewsManager() {
+        // Ініціалізуємо ReviewsManager, якщо він доступний
+        if (typeof ReviewsManager !== 'undefined' && ReviewsManager.init) {
+            ReviewsManager.init();
+        }
     },
 
     // ================================
@@ -488,14 +594,27 @@ window.addEventListener('error', (e) => {
     console.error('Помилка:', e.error);
 });
 
+// Глобальна обробка помилок завантаження зображень
+window.addEventListener('error', (e) => {
+    if (e.target.tagName === 'IMG') {
+        e.target.onerror = null;
+        // SVG placeholder
+        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23ddd" width="400" height="400"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18"%3EФото недоступне%3C/text%3E%3C/svg%3E';
+    }
+}, true);
+
 // Моніторинг продуктивності
 if ('PerformanceObserver' in window) {
-    const perfObserver = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-            if (entry.loadTime > 3000) {
-                console.warn('Повільне завантаження:', entry.name, entry.loadTime);
+    try {
+        const perfObserver = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                if (entry.loadTime > 3000) {
+                    console.warn('Повільне завантаження:', entry.name, entry.loadTime);
+                }
             }
-        }
-    });
-    perfObserver.observe({ entryTypes: ['navigation', 'resource'] });
+        });
+        perfObserver.observe({ entryTypes: ['navigation', 'resource'] });
+    } catch (e) {
+        console.warn('Performance Observer не підтримується:', e);
+    }
 }

@@ -1,54 +1,14 @@
 /* ================================
-   SERVICES GRID - ОНОВЛЕНО
+   SIRKO CLUB - Оптимізовані анімації
    ================================ */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
-@media (max-width: 480px) {
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+/* ================================
+   SERVICE CARDS - HOVER EFFECTS
+   ================================ */
 
 .service-card {
-    background: var(--bg-card);
-    border-radius: 20px;
-    padding: 20px 15px;
-    text-align: center;
-    box-shadow: 0 5px 20px var(--shadow);
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Ключова зміна для вирівнювання */
-}
-
-.service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px var(--shadow);
-}
-
-.service-icon {
-    width: 100%;
-    height: 100px;
-    background: var(--accent);
-    border-radius: 15px;
-    margin: 0 auto 15px;
-    overflow: hidden;
-    position: relative;
-}
-
-.service-icon::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-    transform: translateX(-100%);
-    transition: transform 0.6s;
+    transform: translateZ(0); /* GPU acceleration */
+    backface-visibility: hidden;
 }
 
 .service-card:hover .service-icon::before {
@@ -59,7 +19,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .service-card:hover .service-icon img {
@@ -69,20 +30,18 @@
 .service-content {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Займає доступний простір */
+    flex-grow: 1;
 }
 
 .service-title {
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 8px;
+    transition: color 0.3s ease;
 }
 
-.service-desc {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    flex-grow: 1; /* Займає весь простір між title і price */
+.service-card:hover .service-title {
+    color: var(--accent);
 }
 
 .price-badge {
@@ -92,34 +51,20 @@
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
-    margin-top: auto; /* Прижимає до низу */
-    transition: all 0.3s ease;
+    margin-top: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
 }
 
 .service-card:hover .price-badge {
     background: var(--accent-hover);
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
     box-shadow: 0 4px 12px rgba(166, 138, 111, 0.3);
 }
 
 /* ================================
    INFO SECTION - АНІМОВАНІ ІКОНКИ
    ================================ */
-.info-section,
-.map-section {
-    background: var(--bg-card);
-    border-radius: 20px;
-    padding: 30px;
-    margin-top: 30px;
-    box-shadow: 0 5px 20px var(--shadow);
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-    margin-top: 20px;
-}
 
 .info-item {
     display: flex;
@@ -158,7 +103,8 @@
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* ВИПРАВЛЕНО: will-change тільки під час анімації */
 }
 
 /* Subtle gradient overlay on icon */
@@ -174,6 +120,7 @@
 .info-item:hover .info-icon {
     transform: scale(1.1) rotate(5deg);
     box-shadow: 0 8px 20px rgba(166, 138, 111, 0.4);
+    will-change: transform;
 }
 
 .info-item:hover .info-icon::before {
@@ -198,6 +145,7 @@
     }
 }
 
+/* ВИПРАВЛЕНО: Пульсація тільки якщо не hover */
 .info-icon {
     animation: subtle-pulse 3s ease-in-out infinite;
 }
@@ -257,17 +205,21 @@
 /* Плавна анімація для testimonial cards */
 .testimonial-card {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0); /* GPU acceleration */
+    backface-visibility: hidden;
 }
 
 .testimonial-card:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-8px) scale(1.02) translateZ(0);
     box-shadow: 0 15px 40px var(--shadow);
+    will-change: transform;
 }
 
 /* Анімація для галереї */
 .gallery-item {
     opacity: 0;
     animation: scaleIn 0.5s ease forwards;
+    transform: translateZ(0);
 }
 
 .gallery-item:nth-child(1) { animation-delay: 0.05s; }
@@ -282,11 +234,11 @@
 @keyframes scaleIn {
     from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0.8) translateZ(0);
     }
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateZ(0);
     }
 }
 
@@ -300,6 +252,7 @@
 .gallery-btn {
     position: relative;
     overflow: hidden;
+    transform: translateZ(0);
 }
 
 .btn-primary::before,
@@ -314,7 +267,8 @@
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.3);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover::before,
@@ -322,6 +276,12 @@
 .gallery-btn:hover::before {
     width: 300px;
     height: 300px;
+}
+
+.btn-primary:hover,
+.btn-large:hover,
+.gallery-btn:hover {
+    will-change: transform;
 }
 
 /* Плавний fade-in для секцій */
@@ -340,6 +300,7 @@
 .social-icon {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    transform: translateZ(0);
 }
 
 .social-icon::after {
@@ -359,19 +320,210 @@
 .social-icon svg {
     position: relative;
     z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover svg {
+    transform: scale(1.1);
+}
+
+.social-icon:hover {
+    will-change: transform;
+}
+
+/* ================================
+   LIGHTBOX ANIMATIONS
+   ================================ */
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lightbox-content img {
+    animation: zoomIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================
+   SCROLL ANIMATIONS - ОПТИМІЗОВАНО
+   ================================ */
+
+/* ВИПРАВЛЕНО: Використовуємо Intersection Observer замість scroll events */
+@media (prefers-reduced-motion: no-preference) {
+    .fade-in-element {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in-element.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Для користувачів, які воліють зменшені рухи */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ================================
+   PERFORMANCE OPTIMIZATIONS
+   ================================ */
+
+/* НОВЕ: Тільки використовуємо will-change під час активних анімацій */
+@media (hover: hover) and (pointer: fine) {
+    .service-card:hover,
+    .testimonial-card:hover,
+    .gallery-item:hover,
+    .info-icon:hover {
+        will-change: transform;
+    }
+}
+
+/* Вимикаємо will-change після анімації */
+.service-card:not(:hover),
+.testimonial-card:not(:hover),
+.gallery-item:not(:hover),
+.info-icon:not(:hover) {
+    will-change: auto;
 }
 
 /* ================================
    RESPONSIVE ADJUSTMENTS
    ================================ */
 @media (max-width: 768px) {
-    .info-grid {
-        grid-template-columns: 1fr;
+    /* Менше інтенсивні анімації на мобільних */
+    .service-card:hover {
+        transform: translateY(-5px);
     }
     
-    .info-item {
-        padding: 15px;
-        background: rgba(166, 138, 111, 0.05);
-        border-radius: 12px;
+    .testimonial-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-3px) scale(1.02);
+    }
+    
+    /* Вимикаємо складні hover ефекти на touch devices */
+    @media (hover: none) {
+        .service-card:hover,
+        .testimonial-card:hover,
+        .gallery-item:hover,
+        .info-icon:hover {
+            transform: none;
+        }
+        
+        /* Але залишаємо touch feedback */
+        .service-card:active {
+            transform: scale(0.98);
+        }
+        
+        .testimonial-card:active {
+            transform: scale(0.98);
+        }
+    }
+}
+
+/* ================================
+   LOADING STATES
+   ================================ */
+
+/* Skeleton loading для майбутнього контенту */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-card) 0%,
+        rgba(166, 138, 111, 0.1) 50%,
+        var(--bg-card) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* ================================
+   CUSTOM SCROLLBAR (OPTIONAL)
+   ================================ */
+
+/* Стилізація scrollbar для Webkit браузерів */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* ================================
+   FOCUS STATES (Accessibility)
+   ================================ */
+
+/* Покращені focus стани для keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+.gallery-item:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Вимикаємо outline для mouse clicks */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ================================
+   PRINT STYLES
+   ================================ */
+
+@media print {
+    /* Вимикаємо всі анімації для друку */
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .loading,
+    .progress-bar,
+    .scroll-top,
+    .lightbox {
+        display: none !important;
     }
 }
