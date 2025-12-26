@@ -400,9 +400,9 @@ header {
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg,
-        rgba(166, 138, 111, 0.75) 0%,
-        rgba(143, 115, 90, 0.65) 50%,
-        rgba(166, 138, 111, 0.75) 100%
+        rgba(166, 138, 111, 0.2) 0%,
+        rgba(143, 115, 90, 0.2) 50%,
+        rgba(166, 138, 111, 0.4) 100%
     );
     z-index: 1;
 }
@@ -1347,9 +1347,6 @@ footer {
     box-shadow: 0 4px 12px rgba(166, 138, 111, 0.4);
 }
 
-/* ================================
-   ANIMATIONS
-   ================================ */
 @keyframes fadeInLeft {
     from {
         opacity: 0;
@@ -1383,9 +1380,6 @@ footer {
     }
 }
 
-/* ================================
-   RESPONSIVE ADJUSTMENTS
-   ================================ */
 @media (max-width: 768px) {
     .info-grid {
         grid-template-columns: 1fr;
