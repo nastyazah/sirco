@@ -317,6 +317,3 @@ console.log('Версія: 2.1');
 window.addEventListener('error', (e) => {
     console.error('Виникла помилка:', e.error);
 });
-
-
-
