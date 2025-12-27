@@ -11,7 +11,7 @@ window.addEventListener('scroll', () => {
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
 
-// Завантаження збереженої теми з localStorage
+// Завантаження збереженої теми 
 const savedTheme = localStorage.getItem('theme') || 'light';
 html.setAttribute('data-theme', savedTheme);
 
@@ -72,39 +72,6 @@ scrollTopBtn.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
-
-// Форма зворотнього зв'язку
-const openContactFormBtn = document.getElementById('openContactFormBtn');
-const contactModal = document.getElementById('contactModal');
-const closeContactModal = document.getElementById('closeContactModal');
-
-// Перевірка наявності елементів перед додаванням слухачів
-if (openContactFormBtn && contactModal && closeContactModal) {
-    // Відкрити модальне вікно форми контакту
-    openContactFormBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Відкриття форми контакту');
-        contactModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    // Закрити модальне вікно форми контакту
-    closeContactModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        contactModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-
-    // Закрити при кліку поза модальним вікном
-    contactModal.addEventListener('click', (e) => {
-        if (e.target === contactModal) {
-            contactModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
 
 // форма відгуку
 const openReviewFormBtn = document.getElementById('openReviewFormBtn');
@@ -230,15 +197,6 @@ if (stars.length > 0 && ratingInput) {
         });
     });
 
-    // Скидання підсвічування при виході курсору
-    const ratingStarsContainer = document.querySelector('.rating-stars');
-    if (ratingStarsContainer) {
-        ratingStarsContainer.addEventListener('mouseleave', () => {
-            const currentRating = ratingInput.value;
-            setActiveStars(currentRating);
-        });
-    }
-
     // Функція для підсвічування зірок
     function highlightStars(rating) {
         stars.forEach(star => {
@@ -359,15 +317,3 @@ console.log('Версія: 2.1');
 window.addEventListener('error', (e) => {
     console.error('Виникла помилка:', e.error);
 });
-
-// Моніторинг продуктивності
-if ('PerformanceObserver' in window) {
-    const perfObserver = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-            if (entry.loadTime > 3000) {
-                console.warn('Повільне завантаження:', entry.name, entry.loadTime);
-            }
-        }
-    });
-    perfObserver.observe({ entryTypes: ['navigation', 'resource'] });
-}
