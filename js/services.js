@@ -1,4 +1,3 @@
-// === CONFIG ===
 const CONFIG = {
   paw: {
     steps: { min: 3, max: 4 },
@@ -15,12 +14,10 @@ const CONFIG = {
   },
 };
 
-// === UTILS ===
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const rand = (min, max) => Math.random() * (max - min) + min;
 
-// === DOM CACHE ===
 const DOM = {
   html: document.documentElement,
   body: document.body,
@@ -41,7 +38,6 @@ const DOM = {
   sections: $$('section'),
 };
 
-// === THEME & LOGO ===
 function applyTheme(theme) {
   DOM.html.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
@@ -70,13 +66,10 @@ function initTheme() {
     const current = DOM.html.getAttribute('data-theme');
     const next = current === CONFIG.themes.light ? CONFIG.themes.dark : CONFIG.themes.light;
     applyTheme(next);
-    
-    // Add ripple effect
     createRipple(DOM.themeToggle);
   });
 }
 
-// === RIPPLE EFFECT ===
 function createRipple(element) {
   const ripple = document.createElement('span');
   const rect = element.getBoundingClientRect();
@@ -102,7 +95,6 @@ function createRipple(element) {
   setTimeout(() => ripple.remove(), 600);
 }
 
-// === MOBILE MENU ===
 function toggleMenu(forceClose = false) {
   const active = forceClose ? false : DOM.mobileMenu?.classList.toggle('active');
   
@@ -121,7 +113,6 @@ function initMenu() {
   DOM.menuOverlay?.addEventListener('click', () => toggleMenu(true));
   DOM.menuLinks.forEach(link => link.addEventListener('click', () => toggleMenu(true)));
   
-  // Close menu on ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && DOM.mobileMenu?.classList.contains('active')) {
       toggleMenu(true);
@@ -129,7 +120,6 @@ function initMenu() {
   });
 }
 
-// === FAQ ===
 function initFAQ() {
   document.addEventListener('click', e => {
     const question = e.target.closest('.faq-question');
@@ -153,7 +143,6 @@ function initFAQ() {
     }
   });
   
-  // Keyboard navigation for FAQ
   DOM.faqItems.forEach(item => {
     const question = item.querySelector('.faq-question');
     if (!question) return;
@@ -167,7 +156,6 @@ function initFAQ() {
   });
 }
 
-// === SCROLL TO TOP ===
 let lastScrollY = window.pageYOffset;
 let ticking = false;
 
@@ -192,10 +180,8 @@ function initScrollTop() {
 function handleScroll() {
   const currentScrollY = window.pageYOffset;
   
-  // Show/hide scroll to top button
   DOM.scrollTopBtn?.classList.toggle('visible', currentScrollY > CONFIG.scrollOffset);
-  
-  // Hide/show header on scroll
+
   if (DOM.header) {
     if (currentScrollY > lastScrollY && currentScrollY > 100) {
       DOM.header.classList.add('header-hidden');
@@ -203,24 +189,18 @@ function handleScroll() {
       DOM.header.classList.remove('header-hidden');
     }
     
-    // Add elevation to header when scrolled
     DOM.header.classList.toggle('header-elevated', currentScrollY > 50);
   }
   
   lastScrollY = currentScrollY;
   
-  // Parallax effects
   handleParallax();
-  
-  // Scroll reveal animations
   handleScrollReveal();
 }
 
-// === PARALLAX EFFECTS ===
 function handleParallax() {
   const scrollY = window.pageYOffset;
-  
-  // Hero parallax
+
   if (DOM.hero) {
     const heroOffset = scrollY * CONFIG.parallax.hero;
     DOM.hero.style.transform = `translateY(${heroOffset}px)`;
@@ -232,7 +212,6 @@ function handleParallax() {
   }
 }
 
-// === SCROLL REVEAL ANIMATIONS ===
 function handleScrollReveal() {
   const elements = $$('.service-card, .info-card, .faq-item, .section-title');
   
@@ -246,9 +225,7 @@ function handleScrollReveal() {
   });
 }
 
-// === 3D CARD TILT EFFECT ===
 function init3DTilt() {
-  // Info cards tilt only
   DOM.infoCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -276,7 +253,6 @@ function init3DTilt() {
   });
 }
 
-// === MAGNETIC BUTTONS ===
 function initMagneticButtons() {
   const buttons = $('.btn-book, .btn-large');
   
@@ -298,7 +274,6 @@ function initMagneticButtons() {
   });
 }
 
-// === PAW PRINTS ===
 const PAW_SVG = `
 <svg viewBox="0 0 100 100">
   <ellipse cx="50" cy="70" rx="20" ry="15"/>
@@ -354,7 +329,6 @@ function initPawPrints() {
   scheduleNext();
 }
 
-// === INTERACTIVE CURSOR EFFECT ===
 function initCursorEffect() {
   if (window.innerWidth < 768) return; // Skip on mobile
   
@@ -412,7 +386,6 @@ function initCursorEffect() {
   });
 }
 
-// === SMOOTH SCROLL FOR ANCHOR LINKS ===
 function initSmoothScroll() {
   $$('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
@@ -423,7 +396,7 @@ function initSmoothScroll() {
       const target = $(href);
       
       if (target) {
-        const offsetTop = target.offsetTop - 80; // Account for fixed header
+        const offsetTop = target.offsetTop - 80;
         window.scrollTo({
           top: offsetTop,
           behavior: 'smooth'
@@ -433,7 +406,6 @@ function initSmoothScroll() {
   });
 }
 
-// === PRELOAD CRITICAL IMAGES ===
 function preloadImages() {
   const images = ['img/light.png', 'img/dark.png'];
   images.forEach(src => {
@@ -442,19 +414,16 @@ function preloadImages() {
   });
 }
 
-// === PERFORMANCE: DEBOUNCE RESIZE ===
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    // Recalculate 3D tilt if needed
     if (window.innerWidth >= 768) {
       init3DTilt();
     }
   }, 250);
 });
 
-// === ADD CSS ANIMATIONS DYNAMICALLY ===
 function injectAnimations() {
   const style = document.createElement('style');
   style.textContent = `
@@ -468,7 +437,6 @@ function injectAnimations() {
   document.head.appendChild(style);
 }
 
-// === INIT ALL ===
 function init() {
   injectAnimations();
   preloadImages();
@@ -481,15 +449,13 @@ function init() {
   initMagneticButtons();
   initCursorEffect();
   initSmoothScroll();
-  handleScrollReveal(); // Initial check
+  handleScrollReveal(); 
   
-  // Add loaded class for animations
   setTimeout(() => {
     DOM.body.classList.add('loaded');
   }, 100);
 }
 
-// Start when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
