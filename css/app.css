@@ -7,7 +7,6 @@
   --font-base: 'Open Sans', sans-serif;
   --font-head: 'Playfair Display', serif;
 }
-/* Dark mode vars */
 .dark-mode {
   --bg: #2E2E2E;
   --card: #3C3C3C;
@@ -15,7 +14,6 @@
   --logo-brown-dark: #D4AF7F;
 }
 
-/* RESET & ACCESSIBILITY */
 * {
   margin: 0;
   padding: 0;
@@ -31,7 +29,6 @@ button:focus, a:focus, .card:focus {
   outline: 2px solid var(--logo-brown-dark);
 }
 
-/* BASE */
 body {
   background: var(--bg);
   color: var(--logo-brown);
@@ -43,8 +40,6 @@ body {
   display: flex;
   min-height: 100vh;
 }
-
-/* SIDEBAR */
 .sidebar {
   flex: 0 0 240px;
   background: var(--card);
@@ -79,8 +74,6 @@ body {
   background: var(--logo-brown);
   color: #fff;
 }
-
-/* MAIN & HEADER */
 .main {
   flex: 1;
   padding: 2rem;
@@ -131,8 +124,6 @@ body {
   cursor: pointer;
   font-size: 1.8rem;
 }
-
-/* BURGER */
 .burger {
   display: none;
   background: none;
@@ -142,7 +133,6 @@ body {
   cursor: pointer;
 }
 
-/* SECTIONS */
 .section {
   background: var(--card);
   border-radius: var(--radius);
@@ -165,7 +155,6 @@ body {
   to   { opacity: 1; }
 }
 
-/* SKELETON */
 .skeleton-wrapper {
   display: grid;
   gap: 1rem;
@@ -185,7 +174,6 @@ body {
   100% { background: #e0e0e0; }
 }
 
-/* DASHBOARD CARDS */
 .dashboard .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -219,13 +207,10 @@ body {
   font-size: 1.25rem;
   font-weight: 700;
 }
-
-/* Dark-mode card background */
 .dark-mode .dashboard .card {
   background: #4A4A4A;
 }
 
-/* PAW ZONE */
 .paw-zone {
   position: relative;
   height: 200px;
@@ -240,8 +225,6 @@ body {
   pointer-events: none;
   transition: opacity .8s ease-in-out, transform .8s ease-in-out;
 }
-
-/* MOBILE NAV */
 .mobile-nav {
   display: none;
 }
@@ -264,14 +247,12 @@ body {
   font-size: 24px;
 }
 
-/* ADMIN FOOTER */
 .admin-footer {
   background: var(--card);
   padding: 1rem 0;
   text-align: center;
 }
 .admin-footer .social {
-  /* щоб не підкреслювати посилання під іконками */
   text-decoration: none;
 }
 .admin-footer .social a {
@@ -285,7 +266,6 @@ body {
   filter: invert(30%) sepia(30%) saturate(400%) hue-rotate(10deg);
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
